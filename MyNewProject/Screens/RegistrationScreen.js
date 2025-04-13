@@ -1,57 +1,88 @@
 import React from 'react';
-import { View, Text, ImageBackground, StyleSheet, Dimensions } from 'react-native';
-
-const { height, width } = Dimensions.get('window');
-
-const Card = ({ hall }) => {
+import { 
+  View, 
+  StyleSheet, 
+  Text, 
+  TouchableOpacity, 
+  ScrollView, 
+  KeyboardAvoidingView,
+  Platform
+} from 'react-native';
+import TopVector from '../components/Login/TopVector';
+import AppTextInput from '../components/AppTextInput';
+import AppButton from '../components/AppButton';
+import Screen from '../components/Screen';
+import colors from '../config/colors';
+function RegistrationScreen(props) {
   return (
-    <View style={styles.container}>
-      {/* Full-screen Image Background */}
-      <ImageBackground source={{ uri: hall.image }} style={styles.image} resizeMode="cover">
-        <View style={styles.overlay}>
-          <Text style={styles.name}>{hall.name}</Text>
-          <Text style={styles.location}>{hall.location}</Text>
-          <Text style={styles.price}>{hall.price}</Text>
-          <Text style={styles.description}>{hall.description}</Text>
-        </View>
-      </ImageBackground>
-    </View>
+
+  
+        <Screen style={styles.container}>
+          <View style={styles.vectorContainer}>
+            <TopVector />
+          </View>
+          
+          <View style={styles.content}>
+            <Text style={styles.head}>Registration</Text>
+            <AppTextInput icon={"account"} placeholder={"Enter Name"} style={styles.input} />
+            <AppTextInput icon={"email"} placeholder={"Enter Email"} style={styles.input} />
+            <AppTextInput icon={"lock"} placeholder={"Create Password"} style={styles.input} secureTextEntry />
+            <AppTextInput icon={"lock"} placeholder={"Confirm Password"} style={styles.input} secureTextEntry />
+            
+            <AppButton title={"Create Account"} style={styles.button} />
+            <TouchableOpacity style={styles.textContainer}>
+              <Text style={styles.text}>I already have an account</Text>
+            </TouchableOpacity>
+          </View>
+        </Screen>
+   
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1, // Fills the entire screen
-  },
-  image: {
-    height, // Full height of the screen
-    width, // Full width of the screen
-    justifyContent: 'flex-end', // Align content at the bottom
-  },
-  overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.6)', // Semi-transparent overlay
-    padding: 20,
-  },
-  name: {
-    fontSize: 28,
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  location: {
-    fontSize: 20,
-    color: '#eee',
-    marginTop: 5,
-  },
-  price: {
-    fontSize: 20,
-    color: '#00ffcc',
-    marginTop: 5,
-  },
-  description: {
-    fontSize: 16,
-    color: '#ccc',
-    marginTop: 10,
-  },
-});
 
-export default Card;
+  container: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    paddingHorizontal: 20
+  },
+  vectorContainer: {
+    width: "100%",
+    height: 180,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  content: {
+    width: "100%",
+    alignItems: 'center',
+    paddingTop: 20
+  },
+  head: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    alignSelf: colors.primary
+  },
+  input: {
+    marginBottom: 15
+  },
+  button: {
+    marginTop: 20,
+    width: '100%',
+    backgroundColor: '#ED5D8B',
+    borderRadius: 25,
+  },
+  textContainer: {
+    alignItems: 'center',
+    width: '100%',
+    marginTop: 20,
+    marginBottom: 30
+  },
+  text: {
+    textAlign: 'center',
+    color: '#2B78E4'
+  }
+})
+
+export default RegistrationScreen;

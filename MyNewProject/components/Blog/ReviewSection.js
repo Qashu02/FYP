@@ -13,6 +13,12 @@ const ReviewSection = () => {
   const [reviewList, setReviewList] = useState([]);
   const [reviewText, setReviewText] = useState('');
   const [rating, setRating] = useState(0);
+  const totalReviews = reviewList.length;
+const averageRating =
+  totalReviews > 0
+    ? (reviewList.reduce((sum, r) => sum + r.rating, 0) / totalReviews).toFixed(1)
+    : 0;
+
 
   const handleAddReview = () => {
     if (reviewText.trim() === '' || rating === 0) return;
@@ -49,6 +55,18 @@ const ReviewSection = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Reviews</Text>
+
+      <View style={{ marginBottom: 10 }}>
+  <Text style={{ fontWeight: 'bold' }}>
+    Total Reviews: {totalReviews}
+  </Text>
+  <Text style={{ fontWeight: 'bold' }}>
+    Average Rating: {averageRating} / 5
+  </Text>
+</View>
+
+
+
 
       <View style={styles.starRow}>
         {[1, 2, 3, 4, 5].map((i) => (
