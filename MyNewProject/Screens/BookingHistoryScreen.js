@@ -37,7 +37,7 @@ const renderItem = ({item}) => {
     <Text style={styles.hallName}>{item.hallName}</Text>
     <View style={styles.details}>
 
-<Text  style={styles.details}>Date:{item.date}</Text>
+<Text  >Date:{item.date}</Text>
 <Text >Guests: {item.guests}</Text>
 <Text>Price Per Head: Rs {item.pricePerHead}</Text>
 <Text>Total Cost: Rs {totalCost}</Text>
