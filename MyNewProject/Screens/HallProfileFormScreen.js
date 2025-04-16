@@ -33,7 +33,7 @@ export default function HallProfileFormScreen() {
 
       {/* Icon Navigation */}
       <View style={styles.navButtons}>
-        {step > 1 &&  step <3 &&(
+        {step > 1 &&  (
           <TouchableOpacity onPress={() => setStep(step - 1)} style={styles.iconBtn}>
             <AntDesign name="arrowleft" size={28} color="#fff" />
           </TouchableOpacity>
