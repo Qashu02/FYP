@@ -1,11 +1,7 @@
-// HallBrowseScreen.js
+// HallListScreen.js
 import React from 'react';
-import { FlatList, View, StyleSheet, TouchableOpacity, Text } from 'react-native';
-
-import FullscreenWrapper from '../components/FullScreenWrapper';
-
+import { FlatList, View, StyleSheet, TouchableOpacity } from 'react-native';
 import Card from '../components/Blog/Card';
-import Filter from '../components/Blog/Filter';
 
 const hallData = [
   {
@@ -25,30 +21,21 @@ const hallData = [
     image: 'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=800&q=80',
   },
 ];
-import { Dimensions } from 'react-native';
 
-
-
-
-
-const HallListScreen = () => {
+const HallListScreen = ({ navigation }) => {
   return (
-  <View style={styles.container} >
-
+    <View style={styles.container}>
       <FlatList
-  data={hallData}
-  renderItem={({ item }) => <Card hall={item} />}
-  keyExtractor={item => item.id}
-  showsVerticalScrollIndicator={false}
-/>
-  </View>
-
-     
-
-    
-
-
-
+        data={hallData}
+        renderItem={({ item }) => (
+      
+            <Card hall={item} onPress={()=>navigation.navigate('Menu Details')} />
+        
+        )}
+        keyExtractor={item => item.id}
+        showsVerticalScrollIndicator={false}
+      />
+    </View>
   );
 };
 
@@ -56,10 +43,7 @@ export default HallListScreen;
 
 const styles = StyleSheet.create({
   container: {
-    height:'100%',
     flex: 1,
     backgroundColor: '#fff',
   },
- 
-
 });

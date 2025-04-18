@@ -6,20 +6,24 @@ import {
   TouchableOpacity, 
   ScrollView, 
   KeyboardAvoidingView,
-  Platform
+  Platform,
+  Image
 } from 'react-native';
-import TopVector from '../components/Login/TopVector';
+import TopVector from '../components/Login/WeddingImage';
 import AppTextInput from '../components/AppTextInput';
 import AppButton from '../components/AppButton';
 import Screen from '../components/Screen';
 import colors from '../config/colors';
-function RegistrationScreen(props) {
+
+import WeddingImage from '../components/Login/WeddingImage';
+function RegistrationScreen({navigation}) {
   return (
 
-  
-        <Screen style={styles.container}>
+    
+    <Screen style={styles.container}>
           <View style={styles.vectorContainer}>
-            <TopVector />
+            {/* <TopVector /> */}
+          <WeddingImage style={styles.wedding} source={require('../assets/Wedding.png')}/>
           </View>
           
           <View style={styles.content}>
@@ -29,8 +33,8 @@ function RegistrationScreen(props) {
             <AppTextInput icon={"lock"} placeholder={"Create Password"} style={styles.input} secureTextEntry />
             <AppTextInput icon={"lock"} placeholder={"Confirm Password"} style={styles.input} secureTextEntry />
             
-            <AppButton title={"Create Account"} style={styles.button} />
-            <TouchableOpacity style={styles.textContainer}>
+            <AppButton title={"Create Account"} style={styles.button} onPress={()=>navigation.navigate('Login')} />
+            <TouchableOpacity style={styles.textContainer} onPress={()=>navigation.navigate('Login')}>
               <Text style={styles.text}>I already have an account</Text>
             </TouchableOpacity>
           </View>
@@ -81,7 +85,10 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: 'center',
-    color: '#2B78E4'
+    color: '#555',
+  },
+  wedding:{
+marginLeft:200,
   }
 })
 

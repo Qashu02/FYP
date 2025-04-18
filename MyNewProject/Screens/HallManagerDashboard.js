@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-nati
 import { Ionicons, MaterialIcons, Feather } from '@expo/vector-icons';
 import colors from '../config/colors';
 
-export default function HallManagerDashboard() {
+export default function HallManagerDashboard({navigation}) {
   return (
     <ScrollView style={styles.container}>
       {/* Header */}
@@ -27,8 +27,8 @@ export default function HallManagerDashboard() {
       {/* Action Buttons */}
       <Text style={styles.sectionTitle}>Quick Actions</Text>
       <View style={styles.actions}>
-        <ActionButton icon={<Feather name="clipboard" size={28} color={colors.secondary} />} label="View Orders" />
-        <ActionButton icon={<Feather name="calendar" size={28} color={colors.secondary} />} label="Manage Availability" />
+        <ActionButton  icon={<Feather name="clipboard" size={28} color={colors.secondary} />} label="View Orders" onPress={()=>navigation.navigate('Order')} />
+        <ActionButton icon={<Feather name="calendar" size={28} color={colors.secondary} />} label="Manage Availability" onPress={()=>navigation.navigate('Manage Availability')} />
         <ActionButton icon={<Feather name="book-open" size={28} color={colors.secondary} />} label="Update Menu" />
         <ActionButton icon={<Feather name="settings" size={28} color={colors.secondary} />} label="Settings" />
       </View>
@@ -36,8 +36,8 @@ export default function HallManagerDashboard() {
   );
 }
 
-const ActionButton = ({ icon, label }) => (
-  <TouchableOpacity style={styles.actionCard} onPress={() => alert(label)}>
+const ActionButton = ({ icon, label ,onPress}) => (
+  <TouchableOpacity style={styles.actionCard} onPress={onPress }>
     <View style={styles.iconWrapper}>{icon}</View>
     <Text style={styles.actionLabel}>{label}</Text>
   </TouchableOpacity>

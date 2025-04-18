@@ -3,9 +3,9 @@ import { View,StyleSheet,Text } from 'react-native';
 import {MaterialCommunityIcons } from "@expo/vector-icons"
 
 import AppTextInput from '../AppTextInput';
-const Sign=()  =>{
+const Sign=({style})  =>{
     return (
-  <View style={styles.container}>
+<View style={[styles.container, style]}>
     <Text style={styles.heading}>Sign In</Text>
         <AppTextInput icon={'email'}
         placeholder={'Enter your email'}/>

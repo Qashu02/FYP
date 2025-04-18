@@ -2,19 +2,19 @@ import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import AppTextInput from '../components/AppTextInput';
 import AppButton from '../components/AppButton';
-import TopVector from '../components/Login/TopVector';
+import WeddingImage from '../components/Login/WeddingImage';
 
-function ConfirmPasswordScreen(props) {
+function ConfirmPasswordScreen({navigation}) {
   return (
     <View style={styles.container}>
       <View style={styles.vectorContainer}>
-        <TopVector />
+      <WeddingImage style={styles.wedding} source={require('../assets/Wedding.png')}/>
       </View>
       <View style={styles.content}>
         <Text style={styles.text}>Choose New Password</Text>
         <AppTextInput style={styles.input} placeholder='Enter Password' lock={'eye'} />
         <AppTextInput style={styles.input} placeholder='Confirm Password' lock={"eye"} />
-        <AppButton title={'Submit'} />
+        <AppButton title={'Submit'} onPress={()=>navigation.navigate('Login')} />
       </View>
     </View>
   );
@@ -46,6 +46,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 15,
+  },
+  wedding:{
+    marginLeft:200
   }
 })
 

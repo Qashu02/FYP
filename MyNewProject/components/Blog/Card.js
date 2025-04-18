@@ -6,9 +6,9 @@ import colors from '../../config/colors';
 
 const { width, height } = Dimensions.get('window');
 
-const Card = ({ hall }) => {
+const Card = ({ hall,onPress,navigation }) => {
   return (
-    <TouchableWithoutFeedback >
+    <TouchableWithoutFeedback onPress={onPress} >
     <View
     style={styles.card}>
 
@@ -33,7 +33,7 @@ const Card = ({ hall }) => {
       <View style={styles.topBar}>
         <Text style={styles.title}>Available Halls</Text>
         <View style={styles.icons}>
-          <TouchableOpacity onPress={() => console.log('Filter tapped')}>
+          <TouchableOpacity onPress={() =>navigation.navigate('Filter')}>
             <Ionicons name="filter" size={24} color="#fff" style={styles.icon} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => console.log('Notifications tapped')}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View,StyleSheet, Text } from 'react-native';
 import AppButton from '../components/AppButton';
-import TopVector from '../components/Login/TopVector';
+import TopVector from '../components/Login/WeddingImage';
 import colors from '../config/colors';
 function UserSelectionScreen(props) {
     return (
