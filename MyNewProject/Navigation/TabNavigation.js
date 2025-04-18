@@ -12,7 +12,7 @@ import colors from "../config/colors";
 
 const Tab = createBottomTabNavigator();
 
-const AppNavigator = () => {
+const TabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -77,4 +77,4 @@ const AppNavigator = () => {
   );
 };
 
-export default AppNavigator;
+export default TabNavigator;

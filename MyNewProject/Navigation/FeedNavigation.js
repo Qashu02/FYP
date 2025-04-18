@@ -17,6 +17,7 @@ export default function FeedNavigation() {
     <Stack.Screen name="Filter" component={FilterScreen} />
     <Stack.Screen name="Card" component={Card} />
     <Stack.Screen name="Menu Details" component={MenuDetailsScreen} />
+    
   </Stack.Navigator>
   )
 }

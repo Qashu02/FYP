@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
       marginTop: 15,
       flex: 1,
       padding: 16,
-      backgroundColor: '#fff',
+  
     },
     heading: {
       fontSize: 22,

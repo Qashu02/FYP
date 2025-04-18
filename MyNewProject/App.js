@@ -11,8 +11,10 @@ import AuthNavigation from './Navigation/AuthNavigation';
 import LoginScreen from './Screens/LoginScreen';
 import ManagerNavigation from './Navigation/ManagerNavigation';
 import HallManagerDashboard from './Screens/HallManagerDashboard';
-import AppNavigator from './Navigation/AppNavigation';
+import TabNavigator from './Navigation/TabNavigation';
 import FeedNavigation from './Navigation/FeedNavigation';
+import MenuDetailsScreen from './Screens/MenuDetailsScreen';
+import HallListScreen from './Screens/HallListScreen';
 
 
 
@@ -21,8 +23,9 @@ export default function App() {
   return (
     <View style={styles.container}>
    <NavigationContainer>
-        <FeedNavigation/>
+ <FeedNavigation/>
       </NavigationContainer>
+   
 
     </View>
    
@@ -32,7 +35,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container:{
   flex:1,
-  width:'100%'
+  width:'100%',
+
 
   }
 })

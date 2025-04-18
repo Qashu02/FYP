@@ -19,7 +19,7 @@ const dishOptions = ['Biryani', 'Karahi', 'BBQ', 'Chinese'];
 const menuOptions = ['Buffet', 'Plated', 'Custom'];
 const priceOptions = ['<500', '500-1000', '>1000'];
 
-export default function FeedPredefinedFilter({ onApply }) {
+export default function FeedPredefinedFilter({ onApply, navigation }) {
   const [showFilters, setShowFilters] = useState(false);
   const [selectedDish, setSelectedDish] = useState(null);
   const [selectedMenu, setSelectedMenu] = useState(null);
