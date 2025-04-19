@@ -1,18 +1,16 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { View, Text } from "react-native";
-
-// Screens
-import HallListScreen from "../Screens/HallListScreen";
-import MessagesScreen from "../Screens/MessageScreen";
-import BookingTrackingScreen from "../Screens/BookingTrackingScreen";
-import ProfileScreen from "../Screens/ProfileScreen";
 import colors from "../config/colors";
 
+// Screens
+import FeedStack from "./FeedStack";
+import MessagesScreen from "../Screens/MessageScreen";
+import BookingTrackingScreen from "../Screens/BookingTrackingScreen";
+import ProfileStack from "./ProfileStack";
 const Tab = createBottomTabNavigator();
 
-const TabNavigator = () => {
+const ClientTabNavigation = () => {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -23,10 +21,12 @@ const TabNavigator = () => {
           height: 60,
           paddingBottom: 10,
           paddingTop: 5,
-          backgroundColor: "#fff",
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
-          elevation: 10, // Android shadow
+          // backgroundColor: "#fff",
+    borderTopLeftRadius:20,
+    borderTopRightRadius:20,
+          borderTopWidth: 4,
+          borderColor: colors.secondary,
+          // elevation: 10, // Android shadow
           shadowColor: "#000", // iOS shadow
           shadowOpacity: 0.1,
           shadowOffset: { width: 0, height: -2 },
@@ -38,11 +38,11 @@ const TabNavigator = () => {
       }}
     >
       <Tab.Screen
-        name="Home"
-        component={HallListScreen}
+        name="Feed"
+        component={FeedStack}
         options={{
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="home" color={color} size={32} />
+            <MaterialCommunityIcons name="home" color={color} size={25} />
           ),
         }}
       />
@@ -51,7 +51,7 @@ const TabNavigator = () => {
         component={MessagesScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="message-text" color={color} size={30} />
+            <MaterialCommunityIcons name="message-text" color={color} size={25} />
           ),
         }}
       />
@@ -60,16 +60,16 @@ const TabNavigator = () => {
         component={BookingTrackingScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="map-marker-path" color={color} size={30} />
+            <MaterialCommunityIcons name="map-marker-path" color={color} size={25} />
           ),
         }}
       />
       <Tab.Screen
         name="Profile"
-        component={ProfileScreen}
+        component={ProfileStack}
         options={{
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="account" color={color} size={30} />
+            <MaterialCommunityIcons name="account" color={color} size={25} />
           ),
         }}
       />
@@ -77,4 +77,4 @@ const TabNavigator = () => {
   );
 };
 
-export default TabNavigator;
+export default ClientTabNavigation;

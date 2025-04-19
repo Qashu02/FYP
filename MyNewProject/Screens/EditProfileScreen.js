@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { AntDesign } from '@expo/vector-icons';
+import colors from '../config/colors';
 
 export default function EditProfileScreen() {
   const [profilePic, setProfilePic] = useState(null);
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   saveBtn: {
-    backgroundColor: '#d33',
+    backgroundColor: colors.secondary,
     padding: 16,
     borderRadius: 10,
     marginTop: 20,

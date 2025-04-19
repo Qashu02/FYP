@@ -6,7 +6,7 @@ import FilterScreen from "../Screens/FilterScreen";
 import MenuDetailsScreen from '../Screens/MenuDetailsScreen'
 import HallListScreen from "../Screens/HallListScreen";
 import Card from "../components/Blog/Card";
-export default function FeedNavigation() {
+export default function FeedStack() {
     const Stack =createNativeStackNavigator()
   return (
   <Stack.Navigator screenOptions={{headerShown:false}}>

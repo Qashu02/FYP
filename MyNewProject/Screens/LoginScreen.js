@@ -14,7 +14,7 @@ const LoginScreen = ({navigation}) => {
       <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
      <WeddingImage style={styles.wedding} source={require('../assets/Wedding.png')}/>
         <Sign style={styles.signin} />
-        <AppButton title="Log in"  onPress={()=>navigation.navigate('UserSelection')}/>
+        <AppButton title="Log in"  onPress={()=>navigation.navigate('User Selection')}/>
 
         <TouchableOpacity style={styles.forgotContainer} onPress={()=>navigation.navigate('ForgotPassword')}>
           <Text style={styles.forgotText}>Forgot Password?</Text>

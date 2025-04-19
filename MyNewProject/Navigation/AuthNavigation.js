@@ -15,7 +15,8 @@ export default function AuthNavigation() {
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
       <Stack.Screen name='ConfirmPassword' component={ConfirmPasswordScreen}/>
-      <Stack.Screen name='UserSelection' component={UserSelectionScreen}/>
+      <Stack.Screen name='User Selection' component={UserSelectionScreen}/>
+
 
     </Stack.Navigator>
   );

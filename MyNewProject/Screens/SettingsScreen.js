@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Switch, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons, MaterialIcons, Feather } from '@expo/vector-icons';
+import colors from '../config/colors';
 
 export default function SettingsScreen({ navigation }) {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
@@ -27,27 +28,27 @@ export default function SettingsScreen({ navigation }) {
       <Text style={styles.header}>Settings</Text>
 
       <SettingItem
-        icon={<Ionicons name="person-outline" size={22} color="#333" />}
+        icon={<Ionicons name="person-outline" size={22} color= {colors.secondary} />}
         label="Edit Profile"
-        onPress={() => navigation.navigate('EditProfile')} // or your route name
+        onPress={() => navigation.navigate('Edit Profile')} // or your route name
       />
 
       <SettingItem
-        icon={<Feather name="lock" size={22} color="#333" />}
+        icon={<Feather name="lock" size={22} color= {colors.secondary} />}
         label="Change Password"
-        onPress={() => console.log('Change Password')}
+        onPress={() => navigation.navigate('Change Password')}
       />
 
       <View style={styles.item}>
-        <MaterialIcons name="notifications-none" size={22} color="#333" />
+        <MaterialIcons name="notifications-none" size={22} color={colors.secondary}/>
         <Text style={styles.itemText}>Notifications</Text>
         <Switch value={notificationsEnabled} onValueChange={toggleNotifications} />
       </View>
 
       <SettingItem
-        icon={<Feather name="help-circle" size={22} color="#333" />}
+        icon={<Feather name="help-circle" size={22} color= {colors.secondary} />}
         label="Help & Support"
-        onPress={() => console.log('Help')}
+        onPress={() => navigation.navigate('Help Support')}
       />
 
   

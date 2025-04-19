@@ -11,7 +11,7 @@ const user = {
   email: 'john.doe@example.com',
 };
 const color=colors.secondary
-export default function ProfileScreen() {
+export default function ProfileScreen({navigation}) {
   const handlePress = (label) => {
     console.log(`Opening ${label} screen...`);
   };
@@ -26,7 +26,7 @@ export default function ProfileScreen() {
   return (
     <View style={styles.container}>
       {/* Profile Info */}
-      <View style={styles.profileSection}>
+      <TouchableOpacity style={styles.profileSection} onPress={()=>navigation.navigate('Edit Profile')}>
         <Image
           source={{ uri: user.avatar || defaultAvatar }}
           style={styles.avatar}
@@ -35,33 +35,30 @@ export default function ProfileScreen() {
           <Text style={styles.name}>{user.name}</Text>
           <Text style={styles.email}>{user.email}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
 
       {/* Menu Options */}
-      <TouchableOpacity style={styles.menuItem} onPress={() => handlePress('Messages')}>
+      <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate("Message")}>
         <Ionicons name="chatbubbles-outline" size={22} color={color} />
         <Text style={styles.menuText}>Messages</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.menuItem} onPress={() => handlePress('Booking History')}>
+      <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Booking History')}>
         <MaterialIcons name="history" size={22} color={color} />
         <Text style={styles.menuText}>Booking History</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.menuItem} onPress={() => handlePress('Track Booking')}>
+      <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Track Booking')}>
         <Ionicons name="location-outline" size={22} color={color} />
         <Text style={styles.menuText}>Track Booking</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.menuItem} onPress={() => handlePress('Change Password')}>
-        <Feather name="lock" size={22} color={color} />
-        <Text style={styles.menuText}>Change Password</Text>
+      <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('SettingsPage')}>
+        <Feather name="settings" size={22} color={color} />
+        <Text style={styles.menuText}>Settings</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.menuItem} onPress={() => handlePress('Payment Methods')}>
-        <FontAwesome name="credit-card" size={22} color={color} />
-        <Text style={styles.menuText}>Payment Methods</Text>
-      </TouchableOpacity>
+    
 
       <TouchableOpacity style={[styles.menuItem, styles.logout]} onPress={handleLogout}>
         <Ionicons name="log-out-outline" size={22} color="red" />

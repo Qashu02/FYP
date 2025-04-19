@@ -3,7 +3,7 @@ import { View,StyleSheet, Text } from 'react-native';
 import AppButton from '../components/AppButton';
 import TopVector from '../components/Login/WeddingImage';
 import colors from '../config/colors';
-function UserSelectionScreen(props) {
+function UserSelectionScreen({navigation}) {
     return (
 
   <View style={styles.container}>
@@ -11,7 +11,7 @@ function UserSelectionScreen(props) {
   <View style={styles.content}>
 
   <Text style={styles.text}> Who Are You?</Text>
-  <AppButton style={styles.button} title={"Client"} icon="arrow-right"   />
+  <AppButton style={styles.button} title={"Client"} icon="arrow-right"  onPress={()=>navigation.navigate("Client Tab")} />
   <AppButton style={styles.button} title={"Hall Manager"} icon={'arrow-right'}/>
   </View>
   </View>
