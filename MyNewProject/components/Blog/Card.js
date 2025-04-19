@@ -5,20 +5,14 @@ import {
   Image,
   StyleSheet,
   Dimensions,
-  TouchableOpacity,
   FlatList,
-  StatusBar,
-  Platform,
-  TouchableWithoutFeedback,
+  TouchableOpacity,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import colors from '../../config/colors';
-import { FontAwesome } from '@expo/vector-icons';
-
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 
 const { width, height } = Dimensions.get('window');
 
-const Card = ({ hall, onPress, navigation }) => {
+const Card = ({ hall ,onPress}) => {
   const flatListRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -29,162 +23,122 @@ const Card = ({ hall, onPress, navigation }) => {
 
   const goToPrevious = () => {
     if (activeIndex > 0) {
-      const newIndex = activeIndex - 1;
-      flatListRef.current?.scrollToIndex({ index: newIndex, animated: true });
-      setActiveIndex(newIndex);
+      flatListRef.current?.scrollToIndex({ index: activeIndex - 1, animated: true });
+      setActiveIndex(activeIndex - 1);
     }
   };
 
   const goToNext = () => {
     if (activeIndex < hall.images.length - 1) {
-      const newIndex = activeIndex + 1;
-      flatListRef.current?.scrollToIndex({ index: newIndex, animated: true });
-      setActiveIndex(newIndex);
+      flatListRef.current?.scrollToIndex({ index: activeIndex + 1, animated: true });
+      setActiveIndex(activeIndex + 1);
     }
   };
 
   return (
-    <TouchableWithoutFeedback onPress={onPress}>
-      <View style={styles.card}>
-        {/* Swipable Images */}
-        <FlatList
-          data={hall.images}
-          ref={flatListRef}
-          horizontal
-          pagingEnabled
-          onScroll={handleScroll}
-          scrollEventThrottle={16}
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <Image source={{ uri: item }} style={styles.image} />
-          )}
-        />
+    <TouchableOpacity style={styles.card}  onPress={onPress}>
+      <FlatList
+        data={hall.images}
+        ref={flatListRef}
+        horizontal
+        pagingEnabled
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <Image source={{ uri: item }} style={styles.image} />
+        )}
+      />
 
-        {/* Left and Right Navigation Icons */}
-        <View style={styles.leftArrow}>
-          <TouchableOpacity onPress={goToPrevious} disabled={activeIndex === 0}>
-            <Ionicons name="chevron-back-circle" size={40} color="#fff" />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.rightArrow}>
-          <TouchableOpacity onPress={goToNext} disabled={activeIndex === hall.images.length - 1}>
-            <Ionicons name="chevron-forward-circle" size={40} color="#fff" />
-          </TouchableOpacity>
-        </View>
-
-        {/* Overlay Content */}
-        <View style={styles.overlay}>
-          <Text style={styles.name}>{hall.name}</Text>
-          <Text style={styles.rating}><FontAwesome name='star' size={30} color={'#D4AF37'}/> {hall.rating}</Text>
-          <Text style={styles.location}>{hall.location}</Text>
-          <Text style={styles.price}>{hall.price}</Text>
-          <Text style={styles.description}>{hall.description}</Text>
-        </View>
-
-        {/* Top Bar */}
-        <View style={styles.topBar}>
-          <Text style={styles.title}>Available Halls</Text>
-          <View style={styles.icons}>
-            <TouchableOpacity onPress={() => navigation.navigate('Filter')}>
-              <Ionicons name="filter" size={24} color="#fff" style={styles.icon} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => console.log('Notifications tapped')}>
-              <Ionicons name="notifications-outline" size={24} color="#fff" style={styles.icon} />
-            </TouchableOpacity>
-          </View>
-        </View>
+      {/* Arrows */}
+      <View style={styles.leftArrow}>
+        <TouchableOpacity onPress={goToPrevious} disabled={activeIndex === 0}>
+          <Ionicons name="chevron-back-circle" size={40} color="#fff" />
+        </TouchableOpacity>
       </View>
-    </TouchableWithoutFeedback>
+      <View style={styles.rightArrow}>
+        <TouchableOpacity
+          onPress={goToNext}
+          disabled={activeIndex === hall.images.length - 1}
+        >
+          <Ionicons name="chevron-forward-circle" size={40} color="#fff" />
+        </TouchableOpacity>
+      </View>
+
+      {/* Overlay Info */}
+      <View style={styles.overlay}>
+        <Text style={styles.name}>{hall.name}</Text>
+        <Text style={styles.rating}>
+          <FontAwesome name="star" size={18} color="#FFD700" /> {hall.rating}
+        </Text>
+        <Text style={styles.location}>{hall.location}</Text>
+        <Text style={styles.price}>{hall.price}</Text>
+        <Text style={styles.description}>{hall.description}</Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 
-export default Card;
-
 const styles = StyleSheet.create({
   card: {
-    width: width,
-    height: height,
+    width,
+    height,
     backgroundColor: '#000',
-   
+    overflow: 'hidden',
   },
-  
   image: {
     width,
     height,
     resizeMode: 'cover',
   },
-  topBar: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 50,
-    paddingHorizontal: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    zIndex: 2,
-  },
-  title: {
-    fontSize: 22,
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  icons: {
-    flexDirection: 'row',
-  },
-  icon: {
-    marginLeft: 15,
-  },
   overlay: {
     position: 'absolute',
     bottom: 0,
     width: '100%',
-
-    backgroundColor: colors.secondary,
-    padding: 20,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    padding: 16,
   },
   name: {
-    fontSize: 26,
-    color: '#fff',
+    fontSize: 22,
     fontWeight: 'bold',
+    color: '#fff',
   },
   location: {
-    fontSize: 18,
+    fontSize: 16,
     color: '#eee',
-    marginTop: 4,
+    marginTop: 2,
   },
   price: {
-    fontSize: 18,
+    fontSize: 16,
     color: '#00ffcc',
-    marginTop: 4,
+    marginTop: 2,
   },
-  rating:{
-color:'#eee',
-fontSize:20,
-fontWeight:'700',
-alignSelf:'flex-end',
-position:'absolute',
-top:20,
-right:15
-
+  rating: {
+    position: 'absolute',
+    top: 10,
+    right: 15,
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#eee',
   },
   description: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#ccc',
-    marginTop: 8,
+    marginTop: 5,
   },
   leftArrow: {
     position: 'absolute',
-    top: height / 2 - 20,
-    left: 15,
+    top: '45%',
+    left: 10,
     zIndex: 2,
   },
   rightArrow: {
     position: 'absolute',
-    top: height / 2 - 20,
-    right: 15,
+    top: '45%',
+    right: 10,
     zIndex: 2,
   },
 });
+
+export default Card;
