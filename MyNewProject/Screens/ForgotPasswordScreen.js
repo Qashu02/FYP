@@ -20,7 +20,7 @@ function ForgotPasswordScreen({navigation}) {
 
 <Text style={styles.login}> Log in</Text>
 </TouchableOpacity>
-<WeddingImage source={require("../assets/Wedding.png")} style={styles.wedding}/>
+
 </View>
 
 
@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     container:{
 width:"100%",
 alignItems:'center',
+alignContent:'center'
 
     },
     content:{

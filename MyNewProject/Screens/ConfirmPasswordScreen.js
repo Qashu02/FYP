@@ -7,9 +7,7 @@ import WeddingImage from '../components/Login/WeddingImage';
 function ConfirmPasswordScreen({navigation}) {
   return (
     <View style={styles.container}>
-      <View style={styles.vectorContainer}>
-      <WeddingImage style={styles.wedding} source={require('../assets/Wedding.png')}/>
-      </View>
+    
       <View style={styles.content}>
         <Text style={styles.text}>Choose New Password</Text>
         <AppTextInput style={styles.input} placeholder='Enter Password' lock={'eye'} />

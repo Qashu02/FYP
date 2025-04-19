@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     alignItems: 'center',
-    paddingHorizontal: 20
+    paddingHorizontal: 10
   },
   vectorContainer: {
     width: "100%",
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 20,
     width: '100%',
-    backgroundColor: '#ED5D8B',
+    backgroundColor: colors.secondary,
     borderRadius: 25,
   },
   textContainer: {
