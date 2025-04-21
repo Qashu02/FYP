@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList } from 'react-native';
 import colors from '../config/colors';
 
-const HallProfileScreen = () => {
+const HallProfileScreen = ({navigation}) => {
   const [hallDetails, setHallDetails] = useState({
     name: 'Grand Hall',
     location: '123 Event Street, City',
@@ -23,13 +23,9 @@ const HallProfileScreen = () => {
     availability: 'Available',
   });
 
-  const handleEditProfile = () => {
-    console.log('Edit Profile Button Pressed');
-  };
+  const isHallManager=false
 
-  const handleViewReviews = () => {
-    console.log('View All Reviews');
-  };
+ 
 
   const renderReview = ({ item }) => (
     <View style={styles.review}>
@@ -56,7 +52,7 @@ const HallProfileScreen = () => {
       </View>
 
       {/* Edit Button */}
-      <TouchableOpacity onPress={handleEditProfile} style={styles.editButton}>
+      <TouchableOpacity onPress={()=>navigation.navigate('Edit Profile',{editMode:true})} style={styles.editButton}>
         <Text style={styles.editButtonText}>Edit Profile</Text>
       </TouchableOpacity>
 
@@ -64,33 +60,19 @@ const HallProfileScreen = () => {
       <View style={styles.reviewsContainer}>
         <Text style={styles.reviewsTitle}>Rating & Reviews</Text>
         <Text style={styles.rating}>★ 4.5 (120 Reviews)</Text>
-        <TouchableOpacity onPress={handleViewReviews}>
+        <TouchableOpacity onPress={()=>navigation.navigate('Reviews',{isHallManager:true})}>
           <Text style={styles.viewReviews}>View All Reviews</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 
-  const ListFooter = () => (
-    <View>
-      {/* Availability */}
-      <View style={styles.availabilityContainer}>
-        <Text style={styles.availabilityTitle}>Availability</Text>
-        <Text style={styles.availabilityStatus}>{hallDetails.availability}</Text>
-      </View>
-
-      {/* Contact */}
-      <View style={styles.contactContainer}>
-        <Text style={styles.contactTitle}>Contact Info</Text>
-        <Text style={styles.contactText}>Phone: {hallDetails.contact}</Text>
-      </View>
-    </View>
-  );
+ 
 
   return (
     <FlatList
       ListHeaderComponent={ListHeader}
-      ListFooterComponent={ListFooter}
+      
       data={hallDetails.reviews}
       keyExtractor={(item) => item.id}
       renderItem={renderReview}

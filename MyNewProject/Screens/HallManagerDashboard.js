@@ -27,10 +27,10 @@ export default function HallManagerDashboard({navigation}) {
       {/* Action Buttons */}
       <Text style={styles.sectionTitle}>Quick Actions</Text>
       <View style={styles.actions}>
-        <ActionButton  icon={<Feather name="clipboard" size={28} color={colors.secondary} />} label="View Orders" onPress={()=>navigation.navigate('Order')} />
+        <ActionButton  icon={<Feather name="clipboard" size={28} color={colors.secondary} />} label="View Events" onPress={()=>navigation.navigate('Event')} />
         <ActionButton icon={<Feather name="calendar" size={28} color={colors.secondary} />} label="Manage Availability" onPress={()=>navigation.navigate('Manage Availability')} />
-        <ActionButton icon={<Feather name="book-open" size={28} color={colors.secondary} />} label="Update Menu" />
-        <ActionButton icon={<Feather name="settings" size={28} color={colors.secondary} />} label="Settings" />
+        <ActionButton icon={<Feather name="user" size={28} color={colors.secondary} />} label="Update Profile" onPress={()=>navigation.navigate("Edit Profile" , {editMode:true})} />
+        <ActionButton icon={<Feather name="star" size={28} color={colors.secondary} />} label="View Reviews" onPress={()=>navigation.navigate("Reviews",{isHallManager:true})}/>
       </View>
     </ScrollView>
   );

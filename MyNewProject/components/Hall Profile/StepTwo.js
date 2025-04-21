@@ -87,6 +87,8 @@ export default function StepTwo() {
             {/* List of Menu Packages */}
             <FlatList
               data={menuPackages}
+              keyboardShouldPersistTaps='handled'
+              showsVerticalScrollIndicator={false}
               renderItem={({ item, index }) => (
                 <View style={styles.packageItem}>
                   <View>
@@ -112,8 +114,8 @@ export default function StepTwo() {
 const styles = StyleSheet.create({
   formContainer: {
     flex: 1,
-    padding: 16,
-    backgroundColor: '#f9f9f9',
+    
+    // backgroundColor: '#f9f9f9',
   },
   label: {
     fontWeight: '600',

@@ -18,9 +18,12 @@ import HallProfileFormScreen from './Screens/HallProfileFormScreen';
 export default function App() {
 
   return (
-  <HallProfileFormScreen/>
-   
-   
+ <NavigationContainer>
+  <ManagerTabNavigation/>
+</NavigationContainer> 
+
+  
+
   );
 }
 const styles = StyleSheet.create({

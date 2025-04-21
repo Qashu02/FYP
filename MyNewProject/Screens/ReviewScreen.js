@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,16 +7,44 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import AppTextInput from '../components/AppTextInput';// custom input
+import AppTextInput from '../components/AppTextInput'; // custom input
 import colors from '../config/colors';
 
-const ReviewScreen = ({isHallManager}) => {
- 
+const ReviewScreen = ({ route }) => {
+  const { isHallManager } = route.params;
 
   const [reviewList, setReviewList] = useState([]);
   const [reviewText, setReviewText] = useState('');
   const [rating, setRating] = useState(0);
   const [replyTexts, setReplyTexts] = useState({});
+
+  // Load sample data once when component mounts
+  useEffect(() => {
+    const sampleData = [
+      {
+        id: '1',
+        name: 'Alice',
+        comment: 'Amazing place! The lighting was beautiful.',
+        rating: 5,
+        reply: 'Thank you, Alice! We’re glad you loved it!',
+      },
+      {
+        id: '2',
+        name: 'Bob',
+        comment: 'Spacious hall, but AC wasn’t working well.',
+        rating: 3,
+        reply: '',
+      },
+      {
+        id: '3',
+        name: 'Catherine',
+        comment: 'Perfect for weddings. The decor was on point.',
+        rating: 4,
+        reply: 'Thank you for the feedback, Catherine!',
+      },
+    ];
+    setReviewList(sampleData);
+  }, []);
 
   const totalReviews = reviewList.length;
   const averageRating =
@@ -96,13 +124,12 @@ const ReviewScreen = ({isHallManager}) => {
       <Text style={styles.heading}>Reviews</Text>
 
       <View style={styles.summaryRow}>
-        
         <Text style={styles.summaryText}>
-          Average Rating: {averageRating} / 5 <Text style={styles.summaryText}> ({totalReviews})</Text>
+          Average Rating: {averageRating} / 5{' '}
+          <Text style={styles.summaryText}>({totalReviews})</Text>
         </Text>
       </View>
 
-      {/* Only guests/users see star rating and review input */}
       {!isHallManager && (
         <>
           <View style={styles.starRow}>
@@ -118,19 +145,17 @@ const ReviewScreen = ({isHallManager}) => {
             ))}
           </View>
 
-         
-            <AppTextInput
+          <AppTextInput
             style={styles.reviewInputContainer}
-              placeholder="Write your reviews..."
-              iconPress="send"
-              onIconPress={handleAddReview}
-              value={reviewText}
-              onChangeText={setReviewText}
-              onSubmitEditing={handleAddReview}
-              placeholderTextColor="#999"
-              selectionColor="#000"
-            />
-      
+            placeholder="Write your reviews..."
+            iconPress="send"
+            onIconPress={handleAddReview}
+            value={reviewText}
+            onChangeText={setReviewText}
+            onSubmitEditing={handleAddReview}
+            placeholderTextColor="#999"
+            selectionColor="#000"
+          />
         </>
       )}
 
@@ -159,12 +184,12 @@ const styles = StyleSheet.create({
   },
   summaryRow: {
     marginBottom: 10,
-    flexDirection:'row'
+    flexDirection: 'row',
   },
   summaryText: {
     fontWeight: 'bold',
     fontSize: 14,
-    color:colors.service
+    color: colors.service,
   },
   starRow: {
     flexDirection: 'row',
@@ -174,10 +199,9 @@ const styles = StyleSheet.create({
     marginRight: 6,
   },
   reviewInputContainer: {
-   
-    flexDirection:'row',
-    justifyContent:'space-between',
-marginTop:30
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 30,
   },
   reviewItem: {
     backgroundColor: '#f8f8f8',
@@ -196,7 +220,6 @@ marginTop:30
     marginTop: 8,
     padding: 8,
     borderRadius: 6,
-   
   },
   replyLabel: {
     fontWeight: 'bold',
@@ -212,18 +235,7 @@ marginTop:30
     borderRadius: 6,
     padding: 8,
     marginTop: 8,
-    flexDirection:'row',
-    justifyContent:'space-between',
-  },
-  replyButton: {
-    backgroundColor: colors.secondary,
-    padding: 8,
-    borderRadius: 6,
-    marginTop: 8,
-    alignItems: 'center',
-  },
-  replyButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import StepOne from '../components/Hall Profile/StepOne';
@@ -5,15 +6,15 @@ import StepTwo from '../components/Hall Profile/StepTwo';
 import StepThree from '../components/Hall Profile/StepThree';
 import { AntDesign } from '@expo/vector-icons';
 import colors from '../config/colors';
-
-export default function HallProfileFormScreen() {
+export default function HallProfileFormScreen({ route }) {
+  const editMode = route?.params?.editMode || false;
   const [step, setStep] = useState(1);
 
   const renderStep = () => {
     switch (step) {
       case 1: return <StepOne />;
       case 2: return <StepTwo />;
-      case 3: return <StepThree />;
+      case 3: return editMode ? null : <StepThree />;
     }
   };
 
@@ -21,7 +22,7 @@ export default function HallProfileFormScreen() {
     <View style={styles.container}>
       {/* Progress Indicator */}
       <View style={styles.progressContainer}>
-        {[1, 2, 3].map((s) => (
+        {[1, 2, ...(editMode ? [] : [3])].map((s) => (
           <TouchableOpacity key={s} onPress={() => setStep(s)}>
             <View style={[styles.stepDot, step >= s && styles.activeStep]} />
           </TouchableOpacity>
@@ -32,26 +33,46 @@ export default function HallProfileFormScreen() {
       {renderStep()}
 
       {/* Icon Navigation */}
-      <View style={styles.navButtons}>
-        {step > 1 &&  (
-          <TouchableOpacity onPress={() => setStep(step - 1)} style={styles.iconBtn}>
-            <AntDesign name="arrowleft" size={28} color="#fff" />
-          </TouchableOpacity>
-        )}
-        {step < 3 ? (
-          <TouchableOpacity onPress={() => setStep(step + 1)} style={styles.iconBtn}>
-            <AntDesign name="arrowright" size={28} color="#fff" />
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity onPress={() => alert('Submitted')} style={styles.submitBtn}>
-            <Text style={styles.btnText}>Pay Now</Text>
-          </TouchableOpacity>
-        )}
-      </View>
+     {/* Icon Navigation */}
+     <View style={styles.navButtons}>
+  {/* Navigation Arrows - Only for Create Mode */}
+  {!editMode && step > 1 && (
+    <TouchableOpacity onPress={() => setStep(step - 1)} style={styles.iconBtn}>
+      <AntDesign name="arrowleft" size={28} color="#fff" />
+    </TouchableOpacity>
+  )}
+
+  {!editMode && step < 3 && (
+    <TouchableOpacity onPress={() => setStep(step + 1)} style={styles.iconBtn}>
+      <AntDesign name="arrowright" size={28} color="#fff" />
+    </TouchableOpacity>
+  )}
+
+  {/* Update Button - Only for Edit Mode on Step 2 */}
+  {editMode && step === 2 && (
+    <TouchableOpacity
+      onPress={() => alert('Profile Updated')}
+      style={styles.submitBtn}
+    >
+      <Text style={styles.btnText}>Update</Text>
+    </TouchableOpacity>
+  )}
+
+  {/* Pay Now Button - Only for Create Mode on Step 3 */}
+  {!editMode && step === 3 && (
+    <TouchableOpacity
+      onPress={() => alert('Profile Created')}
+      style={styles.submitBtn}
+    >
+      <Text style={styles.btnText}>Pay Now</Text>
+    </TouchableOpacity>
+  )}
+</View>
+
+
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

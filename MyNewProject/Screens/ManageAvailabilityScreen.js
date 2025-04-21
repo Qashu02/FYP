@@ -1,15 +1,28 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, Switch } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+  Switch,
+} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import colors from '../config/colors';
 
+const slotLabels = [
+  { key: 'slot1', label: '1 PM - 4 PM' },
+  { key: 'slot2', label: '5 PM - 7 PM' },
+  { key: 'slot3', label: '7 PM - 10 PM' },
+];
+
 export default function ManageAvailabilityScreen() {
   const [availabilityList, setAvailabilityList] = useState([]);
-  const [showPicker, setShowPicker] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const handleAddDate = (event, date) => {
-    setShowPicker(false);
+    setShowDatePicker(false);
     if (date) {
       const exists = availabilityList.find(
         (item) => item.date.toDateString() === date.toDateString()
@@ -17,15 +30,22 @@ export default function ManageAvailabilityScreen() {
       if (!exists) {
         setAvailabilityList([
           ...availabilityList,
-          { date, available: true },
+          {
+            date,
+            slots: {
+              slot1: false,
+              slot2: false,
+              slot3: false,
+            },
+          },
         ]);
       }
     }
   };
 
-  const toggleAvailability = (index) => {
+  const toggleSlot = (dateIndex, slotKey) => {
     const updated = [...availabilityList];
-    updated[index].available = !updated[index].available;
+    updated[dateIndex].slots[slotKey] = !updated[dateIndex].slots[slotKey];
     setAvailabilityList(updated);
   };
 
@@ -33,11 +53,11 @@ export default function ManageAvailabilityScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>Manage Availability</Text>
 
-      <TouchableOpacity onPress={() => setShowPicker(true)} style={styles.addBtn}>
+      <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.addBtn}>
         <Text style={styles.addText}>+ Add Available Date</Text>
       </TouchableOpacity>
 
-      {showPicker && (
+      {showDatePicker && (
         <DateTimePicker
           value={selectedDate}
           mode="date"
@@ -52,12 +72,18 @@ export default function ManageAvailabilityScreen() {
         renderItem={({ item, index }) => (
           <View style={styles.dateItem}>
             <Text style={styles.dateText}>{item.date.toDateString()}</Text>
-            <Switch
-              value={item.available}
-              onValueChange={() => toggleAvailability(index)}
-              trackColor={{ false: '#ccc', true: colors.secondary }}
-              thumbColor={item.available ? colors.secondary : '#999'}
-            />
+
+            {slotLabels.map(({ key, label }) => (
+              <View key={key} style={styles.slotRow}>
+                <Text style={styles.slotLabel}>{label}</Text>
+                <Switch
+                  value={item.slots[key]}
+                  onValueChange={() => toggleSlot(index, key)}
+                  trackColor={{ false: '#ccc', true: colors.secondary }}
+                  thumbColor={item.slots[key] ? colors.secondary : '#999'}
+                />
+              </View>
+            ))}
           </View>
         )}
         ListEmptyComponent={
@@ -73,7 +99,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
     padding: 16,
-    paddingTop: 60,
+    paddingTop: 30,
   },
   title: {
     fontSize: 24,
@@ -94,12 +120,10 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   dateItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     backgroundColor: '#fff',
     padding: 16,
     borderRadius: 10,
-    marginBottom: 12,
+    marginBottom: 16,
     shadowColor: colors.dark,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -108,7 +132,19 @@ const styles = StyleSheet.create({
   },
   dateText: {
     fontSize: 16,
+    fontWeight: 'bold',
     color: colors.primary,
+    marginBottom: 12,
+  },
+  slotRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  slotLabel: {
+    fontSize: 15,
+    color: colors.text,
   },
   emptyText: {
     textAlign: 'center',
