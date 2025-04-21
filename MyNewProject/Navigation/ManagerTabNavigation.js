@@ -26,7 +26,7 @@ function ManagerTabNavigation() {
             iconName = 'calendar';
           } else if (route.name === ' Message') {
             iconName = 'message-text';
-          } else if (route.name === 'Hall Profile') {
+          } else if (route.name === 'Hall Profile Stack') {
             iconName = 'home-city';
           }
 
@@ -65,7 +65,7 @@ function ManagerTabNavigation() {
       
       <Tab.Screen name="Event" component={EventScreen} />
       <Tab.Screen name=" Message" component={MessageScreen} />
-      <Tab.Screen name="Hall Profile" component={HallProfileStack} />
+      <Tab.Screen name="Hall Profile Stack" component={HallProfileStack} />
     </Tab.Navigator>
   );
 }

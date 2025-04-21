@@ -5,7 +5,7 @@ import MenuSelector from '../components/Blog/MenuSelector';
 import HallInfoSection from '../components/Blog/HallInfoSelection';
 import HallAvailability from '../components/Blog/HallAvailability';
 import colors from '../config/colors';
-import ReviewSection from '../components/Blog/ReviewSection'; // Adjust path as needed
+import ReviewScreen from './ReviewScreen'
 
 const MenuDetailsScreen = () => {
   const [activeTab, setActiveTab] = useState('info'); // 'info' or 'reviews'
@@ -75,7 +75,7 @@ const MenuDetailsScreen = () => {
                 />
               </>
             ) : (
-              <ReviewSection />
+              <ReviewScreen route={{params:{isHallManager:false}}}/>
             )}
           </View>
         )}

@@ -7,13 +7,7 @@ import { View,StyleSheet, Settings } from 'react-native';
 
 
 
-import HallProfileScreen from './Screens/HallProfileScrreen';
-import ReviewSection from './components/Blog/ReviewSection';
 
-import LoginScreen from './Screens/LoginScreen'
-import ReviewScreen from './Screens/ReviewScreen';
-import ManagerTabNavigation from './Navigation/ManagerTabNavigation';
-import HallProfileFormScreen from './Screens/HallProfileFormScreen';
 import AppNavigation from './Navigation/AppNavigation';
 
 export default function App() {

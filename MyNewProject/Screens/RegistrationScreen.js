@@ -1,75 +1,145 @@
 import React from 'react';
-import { 
-  View, 
-  StyleSheet, 
-  Text, 
-  TouchableOpacity, 
-  ScrollView, 
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
-  Image
+  ScrollView,
 } from 'react-native';
-import TopVector from '../components/Login/WeddingImage';
+
+import WeddingImage from '../components/Login/WeddingImage';
 import AppTextInput from '../components/AppTextInput';
 import AppButton from '../components/AppButton';
 import Screen from '../components/Screen';
 import colors from '../config/colors';
+import AppErrorMessage from '../components/AppErrorMessage';
 
-import WeddingImage from '../components/Login/WeddingImage';
-function RegistrationScreen({navigation}) {
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+
+function RegistrationScreen({ navigation }) {
+  const ValidationSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required"),
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    password: Yup.string().min(8, "Password must be at least 8 characters").required("Password is required"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('password'), null], "Passwords must match")
+      .required("Confirm password is required"),
+  });
+
   return (
-
-    
-    <Screen style={styles.container}>
+    <View style={styles.container}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : null}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={60}
+      >
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
           <View style={styles.vectorContainer}>
-            {/* <TopVector /> */}
-          <WeddingImage style={styles.wedding} source={require('../assets/Wedding.png')}/>
+            <WeddingImage style={styles.wedding} width={150} source={require('../assets/Wedding.png')} />
           </View>
-          
-          <View style={styles.content}>
-            <Text style={styles.head}>Registration</Text>
-            <AppTextInput icon={"account"} placeholder={"Enter Name"} style={styles.input} />
-            <AppTextInput icon={"email"} placeholder={"Enter Email"} style={styles.input} />
-            <AppTextInput icon={"lock"} placeholder={"Create Password"} style={styles.input} secureTextEntry />
-            <AppTextInput icon={"lock"} placeholder={"Confirm Password"} style={styles.input} secureTextEntry />
-            
-            <AppButton title={"Create Account"} style={styles.button} onPress={()=>navigation.navigate('Login')} />
-            <TouchableOpacity style={styles.textContainer} onPress={()=>navigation.navigate('Login')}>
-              <Text style={styles.text}>I already have an account</Text>
-            </TouchableOpacity>
-          </View>
-        </Screen>
-   
+
+          <Formik
+            initialValues={{ name: '', email: '', password: '', confirmPassword: '' }}
+            validationSchema={ValidationSchema}
+            onSubmit={(values) => {
+              console.log("Form Data", values);
+              navigation.navigate("Login");
+            }}
+          >
+            {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+              <View style={styles.content}>
+                <Text style={styles.head}>Registration</Text>
+
+                <AppTextInput
+                  icon="account"
+                  placeholder="Enter Name"
+                  value={values.name}
+                  onChangeText={handleChange('name')}
+                  onBlur={handleBlur('name')}
+                  style={styles.input}
+                />
+                <AppErrorMessage error={errors.name} visible={touched.name} />
+
+                <AppTextInput
+                  icon="email"
+                  placeholder="Enter Email"
+                  value={values.email}
+                  onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
+                  style={styles.input}
+                />
+                <AppErrorMessage error={errors.email} visible={touched.email} />
+
+                <AppTextInput
+                  icon="lock"
+                  placeholder="Create Password"
+                  secureTextEntry
+                  value={values.password}
+                  onChangeText={handleChange('password')}
+                  onBlur={handleBlur('password')}
+                  style={styles.input}
+                />
+                <AppErrorMessage error={errors.password} visible={touched.password} />
+
+                <AppTextInput
+                  icon="lock"
+                  placeholder="Confirm Password"
+                  secureTextEntry
+                  value={values.confirmPassword}
+                  onChangeText={handleChange('confirmPassword')}
+                  onBlur={handleBlur('confirmPassword')}
+                  style={styles.input}
+                />
+                <AppErrorMessage error={errors.confirmPassword} visible={touched.confirmPassword} />
+
+                <AppButton title="Create Account" onPress={handleSubmit} style={styles.button} />
+
+                <TouchableOpacity style={styles.textContainer} onPress={() => navigation.navigate('Login')}>
+                  <Text style={styles.text}>I already have an account</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </Formik>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
     width: '100%',
     alignItems: 'center',
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    paddingBottom: 20,
   },
   vectorContainer: {
     width: "100%",
-    height: 180,
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 20
   },
   content: {
     width: "100%",
-    alignItems: 'center',
-    paddingTop: 20
+
   },
   head: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-    alignSelf: colors.primary
+    color: colors.primary,
   },
   input: {
-    marginBottom: 15
+    marginBottom: 5,
+    width: '100%',
   },
   button: {
     marginTop: 20,
@@ -87,9 +157,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#555',
   },
-  wedding:{
-marginLeft:200,
+  wedding: {
+    marginLeft: 200,
   }
-})
+});
 
 export default RegistrationScreen;
