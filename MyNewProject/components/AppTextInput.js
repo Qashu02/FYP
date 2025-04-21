@@ -45,12 +45,14 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderStyle: "solid",
     borderWidth: 1,
-    borderRadius: 10
+    borderRadius: 10,
+   
   },
   icon: {
     marginRight: 10,
     top: 10,
   },
+
 });
 
 export default AppTextInput;
