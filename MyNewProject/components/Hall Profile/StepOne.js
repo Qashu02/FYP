@@ -14,6 +14,8 @@ const StepOneSchema = Yup.object().shape({
     parking: Yup.boolean(),
     air_conditioning: Yup.boolean(),
     bridal_room: Yup.boolean(),
+    music:Yup.boolean(),
+    lighting:Yup.boolean()
   }),
 });
 
@@ -74,8 +76,8 @@ export default function StepOne() {
             <Text style={styles.error}>{errors.contact}</Text>
           )}
 
-          <Text style={styles.label}>Facilities</Text>
-          {['parking', 'air_conditioning', 'bridal_room'].map((facilityKey) => (
+          <Text style={styles.label}> Choose Facilities</Text>
+          {['parking', 'air_conditioning', 'bridal_room','music','lighting'].map((facilityKey) => (
             <View key={facilityKey} style={styles.facilityRow}>
               <Text style={styles.facilityLabel}>{formatFacilityLabel(facilityKey)}</Text>
               <TouchableOpacity
@@ -124,14 +126,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     fontSize: 12,
   },
-  // input: {
-  //   borderColor: '#ccc',
-  //   borderWidth: 1,
-  //   borderRadius: 6,
-  //   paddingHorizontal: 10,
-  //   paddingVertical: 8,
-  //   marginBottom: 12,
-  // },
+
   facilityRow: {
     flexDirection: 'row',
     alignItems: 'center',

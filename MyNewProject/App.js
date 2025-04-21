@@ -13,13 +13,12 @@ import ReviewSection from './components/Blog/ReviewSection';
 import LoginScreen from './Screens/LoginScreen'
 import ReviewScreen from './Screens/ReviewScreen';
 import ManagerTabNavigation from './Navigation/ManagerTabNavigation';
+import HallProfileFormScreen from './Screens/HallProfileFormScreen';
 
 export default function App() {
 
   return (
-   <NavigationContainer>
-    <ManagerTabNavigation/>
-   </NavigationContainer>
+  <HallProfileFormScreen/>
    
    
   );

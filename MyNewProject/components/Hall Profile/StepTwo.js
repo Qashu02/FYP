@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, FlatList, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+  FlatList,
+  KeyboardAvoidingView,
+  Platform,
+  Keyboard,
+} from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import AppTextInput from '../AppTextInput';
@@ -7,19 +17,24 @@ import ImageInput from './ImageInput';
 
 const StepTwoSchema = Yup.object().shape({
   capacity: Yup.number().required('Capacity is required'),
-  pricePerHead: Yup.number().required('Price per head is required'),
   menuPackages: Yup.array().min(1, 'At least one menu package is required'),
 });
 
 export default function StepTwo() {
   const [menuPackages, setMenuPackages] = useState([]);
   const [newPackage, setNewPackage] = useState('');
+  const [newPrice, setNewPrice] = useState('');
 
   const addMenuPackage = () => {
-    if (newPackage.trim()) {
-      setMenuPackages([...menuPackages, newPackage.trim()]);
+    if (newPackage.trim() && newPrice.trim()) {
+      const packageObject = {
+        name: newPackage.trim(),
+        pricePerHead: parseFloat(newPrice),
+      };
+      setMenuPackages([...menuPackages, packageObject]);
       setNewPackage('');
-      Keyboard.dismiss(); // Dismiss the keyboard after adding the package
+      setNewPrice('');
+      Keyboard.dismiss();
     }
   };
 
@@ -34,7 +49,7 @@ export default function StepTwo() {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <FlatList
-        data={[{ key: 'form' }]} // Fake data to trigger the FlatList rendering
+        data={[{ key: 'form' }]}
         renderItem={() => (
           <View style={styles.formContainer}>
             {/* Hall Image */}
@@ -43,28 +58,28 @@ export default function StepTwo() {
 
             {/* Capacity */}
             <Text style={styles.label}>Capacity</Text>
-            <AppTextInput
-              style={styles.input}
-              placeholder="e.g. 200"
-              keyboardType="numeric"
-            />
+            <AppTextInput placeholder="e.g. 200" keyboardType="numeric" />
 
-            {/* Price Per Head */}
-            <Text style={styles.label}>Price Per Head</Text>
-            <AppTextInput
-              style={styles.input}
-              placeholder="e.g. 1500"
-              keyboardType="numeric"
-            />
-
-            {/* Menu Packages */}
-            <Text style={styles.label}>Menu Packages</Text>
+            {/* Menu Package Name */}
+            <Text style={styles.label}>Menu Package Name</Text>
             <TextInput
               style={styles.input}
               value={newPackage}
               onChangeText={setNewPackage}
-              placeholder="Add Menu Package (e.g., Veg, Non-Veg)"
+              placeholder="e.g., Veg, Non-Veg"
             />
+
+            {/* Price Per Head */}
+            <Text style={styles.label}>Price Per Head</Text>
+            <TextInput
+              style={styles.input}
+              value={newPrice}
+              onChangeText={setNewPrice}
+              keyboardType="numeric"
+              placeholder="e.g., 1500"
+            />
+
+            {/* Add Package Button */}
             <TouchableOpacity onPress={addMenuPackage} style={styles.addButton}>
               <Text style={styles.addButtonText}>Add Package</Text>
             </TouchableOpacity>
@@ -74,7 +89,10 @@ export default function StepTwo() {
               data={menuPackages}
               renderItem={({ item, index }) => (
                 <View style={styles.packageItem}>
-                  <Text style={styles.packageText}>{item}</Text>
+                  <View>
+                    <Text style={styles.packageText}>{item.name}</Text>
+                    <Text style={styles.priceText}>PKR {item.pricePerHead.toFixed(2)}</Text>
+                  </View>
                   <TouchableOpacity onPress={() => removeMenuPackage(index)} style={styles.removeButton}>
                     <Text style={styles.removeButtonText}>Remove</Text>
                   </TouchableOpacity>
@@ -100,6 +118,7 @@ const styles = StyleSheet.create({
   label: {
     fontWeight: '600',
     marginBottom: 6,
+    marginTop: 10,
   },
   input: {
     borderWidth: 1,
@@ -130,6 +149,11 @@ const styles = StyleSheet.create({
   },
   packageText: {
     color: '#132743',
+    fontWeight: '600',
+  },
+  priceText: {
+    color: '#555',
+    fontSize: 13,
   },
   removeButton: {
     backgroundColor: '#D7385E',
