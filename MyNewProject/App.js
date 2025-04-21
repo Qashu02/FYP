@@ -12,17 +12,14 @@ import ReviewSection from './components/Blog/ReviewSection';
 
 import LoginScreen from './Screens/LoginScreen'
 import ReviewScreen from './Screens/ReviewScreen';
+import ManagerTabNavigation from './Navigation/ManagerTabNavigation';
 
 export default function App() {
 
   return (
-    <View style={styles.container}>
-    <ReviewScreen/>
-      
-     
-   
-
-    </View>
+   <NavigationContainer>
+    <ManagerTabNavigation/>
+   </NavigationContainer>
    
    
   );
