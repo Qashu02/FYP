@@ -5,6 +5,8 @@ import TabNavigator from './ClientTabNavigation';   // Import your TabNavigator
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import ClientTabNavigation from './ClientTabNavigation';
+import ManagerTabNavigation from './ManagerTabNavigation';
+import HallProfileFormScreen from '../Screens/HallProfileFormScreen';
 
 const AppNavigation = () => {
 
@@ -14,8 +16,8 @@ const Stack= createNativeStackNavigator()
       <Stack.Navigator screenOptions={{ headerShown: false }}>
            <Stack.Screen name="Auth" component={AuthNavigation} />
           <Stack.Screen name="Client Tab" component={ClientTabNavigation} />
-       
-      
+       <Stack.Screen name='Hall Profile Form' component={HallProfileFormScreen}/>
+      <Stack.Screen name='Manager Tab' component={ManagerTabNavigation}/>
       </Stack.Navigator>
   
   );

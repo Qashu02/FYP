@@ -12,7 +12,7 @@ function UserSelectionScreen({navigation}) {
 
   <Text style={styles.text}> Who Are You?</Text>
   <AppButton style={styles.button} title={"Client"} icon="arrow-right"  onPress={()=>navigation.navigate("Client Tab")} />
-  <AppButton style={styles.button} title={"Hall Manager"} icon={'arrow-right'}/>
+  <AppButton style={styles.button} title={"Hall Manager"} icon={'arrow-right'} onPress={()=>navigation.navigate("Hall Profile Form")}/>
   </View>
   </View>
     );

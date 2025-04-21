@@ -6,7 +6,7 @@ import StepTwo from '../components/Hall Profile/StepTwo';
 import StepThree from '../components/Hall Profile/StepThree';
 import { AntDesign } from '@expo/vector-icons';
 import colors from '../config/colors';
-export default function HallProfileFormScreen({ route }) {
+export default function HallProfileFormScreen({ route,navigation }) {
   const editMode = route?.params?.editMode || false;
   const [step, setStep] = useState(1);
 
@@ -61,7 +61,7 @@ export default function HallProfileFormScreen({ route }) {
   {/* Pay Now Button - Only for Create Mode on Step 3 */}
   {!editMode && step === 3 && (
     <TouchableOpacity
-      onPress={() => alert('Profile Created')}
+      onPress={() => navigation.navigate('Manager Tab')}
       style={styles.submitBtn}
     >
       <Text style={styles.btnText}>Pay Now</Text>
