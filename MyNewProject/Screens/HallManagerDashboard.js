@@ -48,9 +48,10 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: colors.background,
     marginTop:30
+    
   },
   title: {
-    fontSize: 26,
+    fontSize: 22,
     fontWeight: 'bold',
     color: colors.primary,
     marginBottom: 20,

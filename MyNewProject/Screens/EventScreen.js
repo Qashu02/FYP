@@ -22,7 +22,7 @@ const sampleOrders = [
   },
 ];
 
-export default function OrderScreen() {
+export default function EventScreen() {
 
 
 
@@ -52,7 +52,7 @@ export default function OrderScreen() {
       </View>
 
       <View style={styles.statusRow}>
-        <Text style={styles.statusLabel}>Status:</Text>
+        <Text style={styles.statusLabel}>Status:  </Text>
         <Text style={[styles.statusValue, { color: '#f39c12' }]}>
           {item.status}
         </Text>
@@ -62,7 +62,7 @@ export default function OrderScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Pending Events</Text>
+      <Text style={styles.title}>Events</Text>
       <FlatList
         data={sampleOrders}
         keyExtractor={item => item.id}
