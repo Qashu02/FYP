@@ -1,121 +1,195 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  ScrollView,
   FlatList,
   KeyboardAvoidingView,
   Platform,
   Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import AppTextInput from '../AppTextInput';
-import ImageInput from './ImageInput';
+import AppErrorMessage from '../AppErrorMessage';
+import ImageInputList from './ImageInputList';
 
 const StepTwoSchema = Yup.object().shape({
-  capacity: Yup.number().required('Capacity is required'),
+  capacity: Yup.number()
+    .required('Capacity is required')
+    .min(1, 'Capacity must be greater than 0'),
   menuPackages: Yup.array().min(1, 'At least one menu package is required'),
+  images: Yup.array().min(1, 'At least one image is required'),
 });
 
-export default function StepTwo() {
-  const [menuPackages, setMenuPackages] = useState([]);
-  const [newPackage, setNewPackage] = useState('');
-  const [newPrice, setNewPrice] = useState('');
+const StepTwo = React.forwardRef((_, ref) => {
+  const formikRef = useRef();
 
-  const addMenuPackage = () => {
-    if (newPackage.trim() && newPrice.trim()) {
-      const packageObject = {
-        name: newPackage.trim(),
-        pricePerHead: parseFloat(newPrice),
-      };
-      setMenuPackages([...menuPackages, packageObject]);
-      setNewPackage('');
-      setNewPrice('');
-      Keyboard.dismiss();
-    }
-  };
-
-  const removeMenuPackage = (index) => {
-    const updatedPackages = menuPackages.filter((_, i) => i !== index);
-    setMenuPackages(updatedPackages);
-  };
+  React.useImperativeHandle(ref, () => ({
+    validateAndSubmit: async () => {
+      const isValid = await formikRef.current?.validateForm();
+      formikRef.current?.setTouched({
+        capacity: true,
+        menuPackages: true,
+        images: true,
+      });
+      return Object.keys(isValid).length === 0;
+    },
+  }));
 
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={100}
     >
-      <FlatList
-        data={[{ key: 'form' }]}
-        renderItem={() => (
-          <View style={styles.formContainer}>
-            {/* Hall Image */}
-            <Text style={styles.label}>Upload Hall Image</Text>
-            <ImageInput />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={{ flex: 1 }}>
+          <Formik
+            innerRef={formikRef}
+            initialValues={{
+              capacity: '',
+              menuPackages: [],
+              images: [],
+              newPackage: '',
+              newPrice: '', // Removed validation from here
+            }}
+            validationSchema={StepTwoSchema}
+            onSubmit={(values) => {
+              console.log('StepTwo submitted:', values);
+            }}
+          >
+            {({
+              handleChange,
+              handleBlur,
+              values,
+              setFieldValue,
+              errors,
+              touched,
+              setFieldTouched,
+              validateField,
+            }) => {
+              const handleAddImage = async (uri) => {
+                const updatedImages = [...values.images, uri];
+                await setFieldValue('images', updatedImages);
+                await setFieldTouched('images', true);
+                await validateField('images');
+              };
 
-            {/* Capacity */}
-            <Text style={styles.label}>Capacity</Text>
-            <AppTextInput placeholder="e.g. 200" keyboardType="numeric" />
+              const handleRemoveImage = async (uri) => {
+                const updatedImages = values.images.filter((imageUri) => imageUri !== uri);
+                await setFieldValue('images', updatedImages);
+                await setFieldTouched('images', true);
+                await validateField('images');
+              };
 
-            {/* Menu Package Name */}
-            <Text style={styles.label}>Menu Package Name</Text>
-            <TextInput
-              style={styles.input}
-              value={newPackage}
-              onChangeText={setNewPackage}
-              placeholder="e.g., Veg, Non-Veg"
-            />
+              const addMenuPackage = async () => {
+                if (values.newPackage.trim()) {
+                  const packageObject = {
+                    name: values.newPackage.trim(),
+                    pricePerHead: parseFloat(values.newPrice), // Price is no longer validated here
+                  };
 
-            {/* Price Per Head */}
-            <Text style={styles.label}>Price Per Head</Text>
-            <TextInput
-              style={styles.input}
-              value={newPrice}
-              onChangeText={setNewPrice}
-              keyboardType="numeric"
-              placeholder="e.g., 1500"
-            />
+                  const updated = [...values.menuPackages, packageObject];
+                  await setFieldValue('menuPackages', updated);
+                  await setFieldTouched('menuPackages', true);
+                  await validateField('menuPackages');
 
-            {/* Add Package Button */}
-            <TouchableOpacity onPress={addMenuPackage} style={styles.addButton}>
-              <Text style={styles.addButtonText}>Add Package</Text>
-            </TouchableOpacity>
+                  setFieldValue('newPackage', '');
+                  setFieldValue('newPrice', '');
+                  Keyboard.dismiss();
+                }
+              };
 
-            {/* List of Menu Packages */}
-            <FlatList
-              data={menuPackages}
-              keyboardShouldPersistTaps='handled'
-              showsVerticalScrollIndicator={false}
-              renderItem={({ item, index }) => (
-                <View style={styles.packageItem}>
-                  <View>
-                    <Text style={styles.packageText}>{item.name}</Text>
-                    <Text style={styles.priceText}>PKR {item.pricePerHead.toFixed(2)}</Text>
-                  </View>
-                  <TouchableOpacity onPress={() => removeMenuPackage(index)} style={styles.removeButton}>
-                    <Text style={styles.removeButtonText}>Remove</Text>
+              const removeMenuPackage = async (index) => {
+                const updated = values.menuPackages.filter((_, i) => i !== index);
+                await setFieldValue('menuPackages', updated);
+                await setFieldTouched('menuPackages', true);
+                await validateField('menuPackages');
+              };
+
+              return (
+                <ScrollView
+                  contentContainerStyle={styles.formContainer}
+                  keyboardShouldPersistTaps="handled"
+                >
+                  <Text style={styles.label}>Upload Hall Images</Text>
+                  <ImageInputList
+                    imageUris={values.images}
+                    onAddImage={handleAddImage}
+                    onRemoveImage={handleRemoveImage}
+                  />
+                  <AppErrorMessage visible={touched.images && errors.images} error={errors.images} />
+
+                  <Text style={styles.label}>Capacity</Text>
+                  <AppTextInput
+                    placeholder="e.g. 200"
+                    keyboardType="numeric"
+                    value={values.capacity}
+                    onChangeText={handleChange('capacity')}
+                    onBlur={() => setFieldTouched('capacity')}
+                  />
+                  <AppErrorMessage visible={touched.capacity} error={errors.capacity} />
+
+                  <Text style={styles.label}>Menu Package Name</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={values.newPackage}
+                    onChangeText={(text) => setFieldValue('newPackage', text)}
+                    placeholder="e.g., Veg, Non-Veg"
+                  />
+
+                  <Text style={styles.label}>Price Per Head</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={values.newPrice}
+                    onChangeText={(text) => setFieldValue('newPrice', text)}
+                    keyboardType="numeric"
+                    placeholder="e.g., 1500"
+                  />
+
+                  <TouchableOpacity onPress={addMenuPackage} style={styles.addButton}>
+                    <Text style={styles.addButtonText}>Add Package</Text>
                   </TouchableOpacity>
-                </View>
-              )}
-              keyExtractor={(item, index) => index.toString()}
-              ListEmptyComponent={<Text>No packages added yet</Text>}
-            />
-          </View>
-        )}
-        keyExtractor={(item) => item.key}
-      />
+
+                  <AppErrorMessage visible={touched.menuPackages && errors.menuPackages} error={errors.menuPackages} />
+
+                  <FlatList
+                    data={values.menuPackages}
+                    renderItem={({ item, index }) => (
+                      <View key={index} style={styles.packageItem}>
+                        <View>
+                          <Text style={styles.packageText}>{item.name}</Text>
+                          <Text style={styles.priceText}>PKR {item.pricePerHead.toFixed(2)}</Text>
+                        </View>
+                        <TouchableOpacity
+                          onPress={() => removeMenuPackage(index)}
+                          style={styles.removeButton}
+                        >
+                          <Text style={styles.removeButtonText}>Remove</Text>
+                        </TouchableOpacity>
+                      </View>
+                    )}
+                    keyExtractor={(item, index) => index.toString()}
+                  />
+                </ScrollView>
+              );
+            }}
+          </Formik>
+        </View>
+      </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
-}
+});
 
 const styles = StyleSheet.create({
   formContainer: {
-    flex: 1,
-    
-    // backgroundColor: '#f9f9f9',
+    padding: 16,
+    paddingBottom: 100,
   },
   label: {
     fontWeight: '600',
@@ -168,3 +242,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+
+export default StepTwo;

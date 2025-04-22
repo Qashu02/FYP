@@ -9,16 +9,15 @@ import { View,StyleSheet, Settings } from 'react-native';
 
 
 import AppNavigation from './Navigation/AppNavigation';
+import HallProfileFormScreen from './Screens/HallProfileFormScreen';
 
 export default function App() {
 
   return (
- <NavigationContainer>
-<AppNavigation/>
-</NavigationContainer> 
+
 
   
-
+<HallProfileFormScreen/>
   );
 }
 const styles = StyleSheet.create({
