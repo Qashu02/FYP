@@ -8,17 +8,17 @@ import {
   Dimensions,
   Platform,
   KeyboardAvoidingView,
+  Alert,
 } from 'react-native';
-
+import AuthApi from '../api/auth'
 import WeddingImage from '../components/Login/WeddingImage';
 import AppButton from '../components/AppButton';
 import AppTextInput from '../components/AppTextInput';
 import AppErrorMessage from '../components/AppErrorMessage';
-
+import Toast from 'react-native-toast-message';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-const { height } = Dimensions.get('window');
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required('Email is required').email("Invalid email"),
@@ -26,6 +26,33 @@ const validationSchema = Yup.object().shape({
 });
 
 const LoginScreen = ({ navigation }) => {
+  const handleLogin = async (values) => {
+    const response = await AuthApi.login(values);
+  
+    if (!response.ok) {
+      Toast.show({
+        type: 'error',
+        text1: 'Login Failed',
+        text2: response.data?.message || 'Invalid email or password',
+      });
+      return;
+    }
+  
+    const { role } = response.data;
+  
+    if (role === 'manager') {
+      navigation.navigate('Manager Tab');
+    } else {
+      navigation.navigate('Client Tab');
+    }
+  
+    Toast.show({
+      type: 'success',
+      text1: 'Login Successful',
+      text2: 'Welcome back!',
+    });
+  };
+  
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : null}
@@ -37,10 +64,9 @@ const LoginScreen = ({ navigation }) => {
         <Formik
           initialValues={{ email: '', password: '' }}
           validationSchema={validationSchema}
-          onSubmit={(values) => {
-            console.log("Login Data", values);
-            navigation.navigate('User Selection');
-          }}
+          onSubmit={handleLogin}
+    
+          
         >
           {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
             <>

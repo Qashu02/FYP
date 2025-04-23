@@ -8,6 +8,7 @@ import { View,StyleSheet, Settings } from 'react-native';
 
 
 import AppNavigation from './Navigation/AppNavigation';
+import Toast from 'react-native-toast-message';
 
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
 
 <NavigationContainer>
   <AppNavigation/>
+  <Toast/>
 </NavigationContainer>
   );
 }
