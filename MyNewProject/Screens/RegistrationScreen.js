@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   View,
   StyleSheet,
@@ -7,7 +7,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  Alert,
 } from 'react-native';
 
 import WeddingImage from '../components/Login/WeddingImage';
@@ -20,11 +19,7 @@ import AppErrorMessage from '../components/AppErrorMessage';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import authApi from "../api/auth/register"
-
 function RegistrationScreen({ navigation }) {
-  const [submitError, setSubmitError] = useState(null);
-
   const ValidationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
@@ -33,24 +28,6 @@ function RegistrationScreen({ navigation }) {
       .oneOf([Yup.ref('password'), null], "Passwords must match")
       .required("Confirm password is required"),
   });
-
-  const handleRegister = async (values, { setSubmitting }) => {
-    setSubmitError(null);
-    const response = await authApi.register({
-      name: values.name,
-      email: values.email,
-      password: values.password,
-    });
-
-    if (!response.ok) {
-      setSubmitError(response.data?.error?.message || response.data?.message);
-    } else {
-      Alert.alert("Success", "Account created successfully!");
-      navigation.navigate("Login");
-    }
-
-    setSubmitting(false);
-  };
 
   return (
     <View style={styles.container}>
@@ -67,9 +44,12 @@ function RegistrationScreen({ navigation }) {
           <Formik
             initialValues={{ name: '', email: '', password: '', confirmPassword: '' }}
             validationSchema={ValidationSchema}
-            onSubmit={handleRegister}
+            onSubmit={(values) => {
+             
+              navigation.navigate("User Selection",{formData:values});
+            }}
           >
-            {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isSubmitting }) => (
+            {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
               <View style={styles.content}>
                 <Text style={styles.head}>Registration</Text>
 
@@ -115,9 +95,7 @@ function RegistrationScreen({ navigation }) {
                 />
                 <AppErrorMessage error={errors.confirmPassword} visible={touched.confirmPassword} />
 
-                <AppErrorMessage error={submitError} visible={!!submitError} />
-
-                <AppButton title={isSubmitting ? "Creating..." : "Create Account"} onPress={handleSubmit} disabled={isSubmitting} style={styles.button} />
+                <AppButton title="Next" onPress={handleSubmit} style={styles.button} />
 
                 <TouchableOpacity style={styles.textContainer} onPress={() => navigation.navigate('Login')}>
                   <Text style={styles.text}>I already have an account</Text>
@@ -151,6 +129,7 @@ const styles = StyleSheet.create({
   },
   content: {
     width: "100%",
+
   },
   head: {
     fontSize: 24,

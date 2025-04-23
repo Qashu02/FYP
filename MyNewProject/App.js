@@ -6,16 +6,13 @@ import { View,StyleSheet, Settings } from 'react-native';
 
 
 
-import StepTwo from './components/Hall Profile/StepTwo';
 
 import AppNavigation from './Navigation/AppNavigation';
-import HallProfileFormScreen from './Screens/HallProfileFormScreen';
-import ImageInputList from './components/Hall Profile/ImageInputList';
+
 
 export default function App() {
 
   return (
-
 
 <NavigationContainer>
   <AppNavigation/>
