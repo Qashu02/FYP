@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -56,7 +56,7 @@ const StepTwo = React.forwardRef((_, ref) => {
               menuPackages: [],
               images: [],
               newPackage: '',
-              newPrice: '', // Removed validation from here
+              newPrice: '',
             }}
             validationSchema={StepTwoSchema}
             onSubmit={(values) => {
@@ -72,32 +72,47 @@ const StepTwo = React.forwardRef((_, ref) => {
               touched,
               setFieldTouched,
               validateField,
+              validateForm,
             }) => {
+              // Define the validation function outside handlers
+              const validateImageField = () => {
+                if (values.images.length > 0) {
+                  validateField('images');
+                }
+              };
+
+              // Use effect hook consistently - it will always be rendered
+              useEffect(() => {
+                if (touched.images) {
+                  validateImageField();
+                }
+              }, [values.images.length, touched.images]);
+
               const handleAddImage = async (uri) => {
                 const updatedImages = [...values.images, uri];
                 await setFieldValue('images', updatedImages);
                 await setFieldTouched('images', true);
-                await validateField('images');
+                // Validation will be triggered by the useEffect
               };
 
               const handleRemoveImage = async (uri) => {
                 const updatedImages = values.images.filter((imageUri) => imageUri !== uri);
                 await setFieldValue('images', updatedImages);
                 await setFieldTouched('images', true);
-                await validateField('images');
+                // Validation will be triggered by the useEffect
               };
 
               const addMenuPackage = async () => {
                 if (values.newPackage.trim()) {
                   const packageObject = {
                     name: values.newPackage.trim(),
-                    pricePerHead: parseFloat(values.newPrice), // Price is no longer validated here
+                    pricePerHead: parseFloat(values.newPrice) || 0,
                   };
 
                   const updated = [...values.menuPackages, packageObject];
                   await setFieldValue('menuPackages', updated);
                   await setFieldTouched('menuPackages', true);
-                  await validateField('menuPackages');
+                  validateField('menuPackages');
 
                   setFieldValue('newPackage', '');
                   setFieldValue('newPrice', '');
@@ -109,7 +124,7 @@ const StepTwo = React.forwardRef((_, ref) => {
                 const updated = values.menuPackages.filter((_, i) => i !== index);
                 await setFieldValue('menuPackages', updated);
                 await setFieldTouched('menuPackages', true);
-                await validateField('menuPackages');
+                validateField('menuPackages');
               };
 
               return (
@@ -131,9 +146,12 @@ const StepTwo = React.forwardRef((_, ref) => {
                     keyboardType="numeric"
                     value={values.capacity}
                     onChangeText={handleChange('capacity')}
-                    onBlur={() => setFieldTouched('capacity')}
+                    onBlur={() => {
+                      setFieldTouched('capacity');
+                      validateField('capacity');
+                    }}
                   />
-                  <AppErrorMessage visible={touched.capacity} error={errors.capacity} />
+                  <AppErrorMessage visible={touched.capacity && errors.capacity} error={errors.capacity} />
 
                   <Text style={styles.label}>Menu Package Name</Text>
                   <TextInput
