@@ -16,6 +16,7 @@
     "@react-navigation/native": "^7.1.6",
     "@react-navigation/native-stack": "^7.3.10",
     "@stripe/stripe-react-native": "0.38.6",
+    "apisauce": "^3.1.1",
     "expo": "~52.0.43",
     "expo-image-picker": "~16.0.6",
     "expo-status-bar": "~2.0.1",

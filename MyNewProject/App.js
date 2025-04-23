@@ -17,7 +17,9 @@ export default function App() {
   return (
 
 
-<HallProfileFormScreen/>
+<NavigationContainer>
+  <AppNavigation/>
+</NavigationContainer>
   );
 }
 const styles = StyleSheet.create({
