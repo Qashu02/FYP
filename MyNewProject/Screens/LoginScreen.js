@@ -1,28 +1,19 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  Dimensions,
-  Platform,
-  KeyboardAvoidingView,
-  Alert,
-} from 'react-native';
-import AuthApi from '../api/auth'
-import WeddingImage from '../components/Login/WeddingImage';
-import AppButton from '../components/AppButton';
-import AppTextInput from '../components/AppTextInput';
-import AppErrorMessage from '../components/AppErrorMessage';
+import { View, StyleSheet, Text, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import AuthApi from '../api/auth';
+import { saveData } from '../Utils/storage';
 import Toast from 'react-native-toast-message';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
+import WeddingImage from '../components/Login/WeddingImage';
+import AppButton from '../components/AppButton';
+import AppTextInput from '../components/AppTextInput';
+import AppErrorMessage from '../components/AppErrorMessage';
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().required('Email is required').email("Invalid email"),
-  password: Yup.string().required("Password is required"),
+  email: Yup.string().required('Email is required').email('Invalid email'),
+  password: Yup.string().required('Password is required'),
 });
 
 const LoginScreen = ({ navigation }) => {
@@ -38,35 +29,37 @@ const LoginScreen = ({ navigation }) => {
       return;
     }
   
-    const { role } = response.data;
+    const { name, email, role } = response.data.user;  // Ensure response contains 'user'
   
-    if (role === 'manager') {
-      navigation.navigate('Manager Tab');
-    } else {
-      navigation.navigate('Client Tab');
-    }
+    // Log the user data before saving to AsyncStorage
+    console.log('User Data to be stored:', { name, email, role });
+  
+    // Save to AsyncStorage
+    await saveData('user', { name, email, role });
   
     Toast.show({
       type: 'success',
       text1: 'Login Successful',
       text2: 'Welcome back!',
     });
+  
+    const targetScreen = role === 'manager' ? 'Manager Tab' : 'Client Tab';
+  
+    navigation.reset({
+      index: 0,
+      routes: [{ name: targetScreen }],
+    });
   };
   
+
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : null}
-      style={{ flex: 1 }}
-    >
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
         <WeddingImage style={styles.wedding} source={require('../assets/Wedding.png')} />
-
         <Formik
           initialValues={{ email: '', password: '' }}
           validationSchema={validationSchema}
           onSubmit={handleLogin}
-    
-          
         >
           {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
             <>

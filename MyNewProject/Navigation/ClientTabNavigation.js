@@ -65,7 +65,7 @@ const ClientTabNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="Profile"
+        name="Profile User"
         component={ProfileStack}
         options={{
           tabBarIcon: ({ color }) => (

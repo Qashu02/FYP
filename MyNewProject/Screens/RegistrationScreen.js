@@ -9,15 +9,15 @@ import {
   ScrollView,
 } from 'react-native';
 
+import Toast from 'react-native-toast-message';
 import WeddingImage from '../components/Login/WeddingImage';
 import AppTextInput from '../components/AppTextInput';
 import AppButton from '../components/AppButton';
-import Screen from '../components/Screen';
-import colors from '../config/colors';
 import AppErrorMessage from '../components/AppErrorMessage';
 
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import colors from '../config/colors';
 
 function RegistrationScreen({ navigation }) {
   const ValidationSchema = Yup.object().shape({
@@ -28,6 +28,19 @@ function RegistrationScreen({ navigation }) {
       .oneOf([Yup.ref('password'), null], "Passwords must match")
       .required("Confirm password is required"),
   });
+
+  const handleFormSubmit = (values) => {
+    Toast.show({
+      type: 'success',
+      text1: 'Registration Info',
+      text2: 'Your details were validated successfully 👌',
+    });
+
+    // Navigate after toast shows
+    setTimeout(() => {
+      navigation.navigate("User Selection", { formData: values });
+    }, 1000);
+  };
 
   return (
     <View style={styles.container}>
@@ -44,10 +57,7 @@ function RegistrationScreen({ navigation }) {
           <Formik
             initialValues={{ name: '', email: '', password: '', confirmPassword: '' }}
             validationSchema={ValidationSchema}
-            onSubmit={(values) => {
-             
-              navigation.navigate("User Selection",{formData:values});
-            }}
+            onSubmit={handleFormSubmit}
           >
             {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
               <View style={styles.content}>
@@ -105,6 +115,7 @@ function RegistrationScreen({ navigation }) {
           </Formik>
         </ScrollView>
       </KeyboardAvoidingView>
+      <Toast />
     </View>
   );
 }
@@ -129,7 +140,6 @@ const styles = StyleSheet.create({
   },
   content: {
     width: "100%",
-
   },
   head: {
     fontSize: 24,

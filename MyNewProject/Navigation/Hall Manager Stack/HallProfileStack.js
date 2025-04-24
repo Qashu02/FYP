@@ -9,7 +9,7 @@ import EventScreen from "../../Screens/EventScreen";
 import SettingsScreen from "../../Screens/SettingsScreen";
 import SettingsStack from "../SettingsStack";
 import HallProfileFormScreen from "../../Screens/HallProfileFormScreen";
-import HallProfileScreen from "../../Screens/HallProfileScrreen";
+import HallProfileScreen from "../../Screens/HallProfileScreen";
 import ReviewScreen from "../../Screens/ReviewScreen";
 
 export default function ManagerNavigation() {
