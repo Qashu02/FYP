@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, ScrollView } from 'react-native';
-import colors from '../config/colors';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
+import colors from '../config/colors'; // Make sure your colors file exists
+
+const { width } = Dimensions.get('window');
 
 export default function ManageHallsScreen() {
   const [halls, setHalls] = useState([
@@ -12,8 +14,18 @@ export default function ManageHallsScreen() {
       services: ['Catering', 'Decoration', 'Music', 'Lighting'],
       status: 'pending',
       images: [
-        'https://images.unsplash.com/photo-1582719478250-04aa94975f8c',
-        'https://images.unsplash.com/photo-1572569982261-2b62dc2a1da2',
+        'https://images.unsplash.com/photo-1580587771525-78b9dba3b914',
+        'https://images.unsplash.com/photo-1597262975002-c5c3b14bbd62',
+      ],
+      packages: [
+        {
+          menu: 'BBQ, Biryani, Cold Drinks',
+          price: '1200',
+        },
+        {
+          menu: 'BBQ, Biryani, Karahi, Dessert Table',
+          price: '1800',
+        },
       ],
     },
     {
@@ -26,6 +38,16 @@ export default function ManageHallsScreen() {
       images: [
         'https://images.unsplash.com/photo-1612531384832-3c60e72d4ee3',
         'https://images.unsplash.com/photo-1600047506528-47e1c5b8de6b',
+      ],
+      packages: [
+        {
+          menu: 'Snacks, Soft Drinks',
+          price: '800',
+        },
+        {
+          menu: 'Snacks, BBQ, Full Course Meal',
+          price: '1500',
+        },
       ],
     },
   ]);
@@ -48,7 +70,12 @@ export default function ManageHallsScreen() {
 
   const renderHall = ({ item }) => (
     <View style={styles.card}>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.imageScroll}>
+      <ScrollView
+        horizontal
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+        style={styles.imageScroll}
+      >
         {item.images.map((imgUrl, index) => (
           <Image key={index} source={{ uri: imgUrl }} style={styles.image} />
         ))}
@@ -59,6 +86,7 @@ export default function ManageHallsScreen() {
         <Text style={styles.location}>{item.location}</Text>
         <Text style={styles.description}>{item.description}</Text>
 
+        {/* Services */}
         <View style={styles.servicesContainer}>
           <Text style={styles.sectionTitle}>Services:</Text>
           {item.services.map((service, index) => (
@@ -66,8 +94,21 @@ export default function ManageHallsScreen() {
           ))}
         </View>
 
+        {/* Packages */}
+        <View style={styles.packagesContainer}>
+          <Text style={styles.sectionTitle}>Packages (Menu and Price):</Text>
+          {item.packages.map((pkg, index) => (
+            <View key={index} style={styles.packageItem}>
+              <Text style={styles.packageMenu}>Menu: {pkg.menu}</Text>
+              <Text style={styles.packagePrice}>Price: Rs {pkg.price}</Text>
+            </View>
+          ))}
+        </View>
+
+        {/* Status */}
         <Text style={styles.status}>Status: {item.status}</Text>
 
+        {/* Action Buttons */}
         {item.status === 'pending' && (
           <View style={styles.buttonsContainer}>
             <TouchableOpacity style={[styles.button, { backgroundColor: 'green' }]} onPress={() => handleAccept(item.id)}>
@@ -99,18 +140,18 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     elevation: 3,
     overflow: 'hidden',
+    height:'100%a'
   },
+
   imageScroll: {
     width: '100%',
     height: 200,
     backgroundColor: '#eee',
   },
   image: {
-    width: 300,
+    width: width,
     height: 200,
     resizeMode: 'cover',
-    marginRight: 10,
-    borderRadius: 10,
   },
   info: {
     padding: 15,
@@ -133,14 +174,34 @@ const styles = StyleSheet.create({
   servicesContainer: {
     marginBottom: 10,
   },
+  packagesContainer: {
+    marginBottom: 10,
+  },
   sectionTitle: {
     fontSize: 16,
     fontWeight: '600',
+    marginBottom: 5,
   },
   serviceItem: {
     fontSize: 14,
     color: colors.medium,
     marginLeft: 8,
+  },
+  packageItem: {
+    backgroundColor: '#f9f9f9',
+    padding: 10,
+    borderRadius: 8,
+    marginTop: 5,
+  },
+  packageMenu: {
+    fontSize: 14,
+    color: colors.text,
+    marginBottom: 2,
+  },
+  packagePrice: {
+    fontSize: 14,
+    color: colors.dark,
+    fontWeight: '600',
   },
   status: {
     fontSize: 14,
