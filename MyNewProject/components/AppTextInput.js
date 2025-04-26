@@ -16,7 +16,7 @@ function AppTextInput({ icon, style, iconPress, onIconPress, placeholder, ...oth
       )}
       
       <TextInput
-       
+        style={[styles.textInput, otherProps.multiline && { minHeight: 100, textAlignVertical: 'top' }]} // ⭐ fix added here
         placeholder={placeholder}
         {...otherProps}
       />
@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.background,
     flexDirection: "row",
+    alignItems: "center",
     width: "100%",
     padding: 5,
     marginVertical: 10,
@@ -46,13 +47,18 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderWidth: 1,
     borderRadius: 10,
-   
+  },
+  textInput: {
+    flex: 1,
+    fontSize: 16,
+    color: colors.text,
+    paddingTop: 10,
+    paddingBottom: 10,
   },
   icon: {
     marginRight: 10,
-    top: 10,
+    marginLeft: 5,
   },
-
 });
 
 export default AppTextInput;

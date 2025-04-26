@@ -22,6 +22,10 @@ const StepTwoSchema = Yup.object().shape({
   capacity: Yup.number()
     .required('Capacity is required')
     .min(1, 'Capacity must be greater than 0'),
+  description: Yup.string()
+    .required("Description is required")
+    .min(20, "Description must be between 20 and 100 characters")
+    .max(100, "Description must be between 20 and 100 characters"),
   menuPackages: Yup.array().min(1, 'At least one menu package is required'),
   images: Yup.array().min(1, 'At least one image is required'),
 });
@@ -53,6 +57,7 @@ const StepTwo = React.forwardRef((_, ref) => {
             innerRef={formikRef}
             initialValues={{
               capacity: '',
+              description: '',
               menuPackages: [],
               images: [],
               newPackage: '',
@@ -74,14 +79,12 @@ const StepTwo = React.forwardRef((_, ref) => {
               validateField,
               validateForm,
             }) => {
-              // Define the validation function outside handlers
               const validateImageField = () => {
                 if (values.images.length > 0) {
                   validateField('images');
                 }
               };
 
-              // Use effect hook consistently - it will always be rendered
               useEffect(() => {
                 if (touched.images) {
                   validateImageField();
@@ -92,14 +95,12 @@ const StepTwo = React.forwardRef((_, ref) => {
                 const updatedImages = [...values.images, uri];
                 await setFieldValue('images', updatedImages);
                 await setFieldTouched('images', true);
-                // Validation will be triggered by the useEffect
               };
 
               const handleRemoveImage = async (uri) => {
                 const updatedImages = values.images.filter((imageUri) => imageUri !== uri);
                 await setFieldValue('images', updatedImages);
                 await setFieldTouched('images', true);
-                // Validation will be triggered by the useEffect
               };
 
               const addMenuPackage = async () => {
@@ -152,6 +153,21 @@ const StepTwo = React.forwardRef((_, ref) => {
                     }}
                   />
                   <AppErrorMessage visible={touched.capacity && errors.capacity} error={errors.capacity} />
+
+                  <Text style={styles.label}>Description</Text>
+                  <AppTextInput
+                    placeholder="Enter Description"
+                    value={values.description}
+                    onChangeText={handleChange('description')}
+                    onBlur={() => {
+                      setFieldTouched('description');
+                      validateField('description');
+                    }}
+                    style={styles.descriptionField}
+                    multiline={true}
+                    textAlignVertical="top"
+                  />
+                  <AppErrorMessage visible={touched.description} error={errors.description} />
 
                   <Text style={styles.label}>Menu Package Name</Text>
                   <TextInput
@@ -220,6 +236,16 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     padding: 10,
     marginBottom: 12,
+  },
+  descriptionField: {
+    minHeight: 100,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    padding: 10,
+    fontSize: 16,
+    lineHeight: 24,
+    textAlignVertical: 'top', 
   },
   addButton: {
     backgroundColor: '#132743',

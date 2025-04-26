@@ -14,16 +14,18 @@ import NotificationScreen from './Screens/NotificationScreen';
 import SettingsScreen from './Screens/SettingsScreen';
 import FilterScreen from './Screens/FilterScreen';
 import SupportScreen from './Screens/SupportScreen';
+import ManageHallsScreen from './Screens/ManageHallsScreen';
+import StepTwo from './components/Hall Profile/StepTwo';
 
 
 export default function App() {
 
   return (
 
-// <NavigationContainer>
-//   <AppNavigation/>
-// </NavigationContainer>
-<FilterScreen/>
+<NavigationContainer>
+<StepTwo/>
+</NavigationContainer>
+
   );
 }
 const styles = StyleSheet.create({
