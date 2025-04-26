@@ -23,6 +23,7 @@ import FeedStack from './Navigation/FeedStack';
 import MenuDetailsScreen from './Screens/MenuDetailsScreen';
 import HallProfileFormScreen from './Screens/HallProfileFormScreen';
 import HallProfileScreen from './Screens/HallProfileScreen';
+import AdminManageFeedbackScreen from './Screens/ManageFeedbackScreen';
 
 
 export default function App() {
@@ -31,7 +32,7 @@ export default function App() {
 
 
 <Screen style={styles.container}>
-<ManageHallsScreen/>
+<AdminManageFeedbackScreen/>
 </Screen>
   );
 }
