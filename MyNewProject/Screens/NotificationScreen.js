@@ -6,24 +6,14 @@ import colors from '../config/colors';
 export default function NotificationScreen() {
   // Sample notifications data
   const [notifications, setNotifications] = useState([
-    {
-      id: '1',
-      title: 'New Booking Request',
-      message: 'John Doe booked your hall for 2025-05-01',
-      time: '2 hours ago',
-    },
+
     {
       id: '2',
       title: 'Order Update',
       message: 'Your booking for Jane Smith has been accepted.',
       time: '1 day ago',
     },
-    {
-      id: '3',
-      title: 'Reminder',
-      message: 'Don’t forget the upcoming event on 2025-05-10.',
-      time: '3 days ago',
-    },
+ 
     {
       id: '4',
       title: 'Order Confirmed',

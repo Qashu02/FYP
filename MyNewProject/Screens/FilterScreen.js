@@ -7,24 +7,32 @@ import {
   Switch,
   TouchableOpacity,
   ScrollView,
+  Platform,
 } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import colors from '../config/colors';
 
 export default function FilterScreen({ navigation }) {
   const [hasParking, setHasParking] = useState(false);
   const [hasBridalRoom, setHasBridalRoom] = useState(false);
   const [hasAC, setHasAC] = useState(false);
-  const [location, setLocation] = useState('');
   const [menuKeyword, setMenuKeyword] = useState('');
   const [pricePerHead, setPricePerHead] = useState('');
   const [capacity, setCapacity] = useState('');
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const handleDateChange = (event, date) => {
+    setShowDatePicker(Platform.OS === 'ios');
+    if (date) setSelectedDate(date);
+  };
 
   const handleApplyFilters = () => {
     const filters = {
       parking: hasParking,
       bridalRoom: hasBridalRoom,
       ac: hasAC,
-      location,
+      date: selectedDate.toISOString().split('T')[0], // Format YYYY-MM-DD
       menuKeyword,
       pricePerHead,
       capacity,
@@ -38,18 +46,27 @@ export default function FilterScreen({ navigation }) {
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Filter Halls</Text>
 
-      {/* Location */}
+      {/* Date Picker */}
       <View style={styles.filterGroup}>
-        <Text style={styles.label}>Location</Text>
-        <TextInput
+        <Text style={styles.label}>Select Date</Text>
+        <TouchableOpacity
           style={styles.input}
-          placeholder="Enter city or area"
-          value={location}
-          onChangeText={setLocation}
-        />
+          onPress={() => setShowDatePicker(true)}
+        >
+          <Text>{selectedDate.toDateString()}</Text>
+        </TouchableOpacity>
+        {showDatePicker && (
+          <DateTimePicker
+            value={selectedDate}
+            mode="date"
+            display="default"
+            onChange={handleDateChange}
+            minimumDate={new Date()}
+          />
+        )}
       </View>
 
-      {/* Parking & Bridal Room */}
+      {/* Parking */}
       <View style={styles.filterGroupRow}>
         <Text style={styles.label}>Parking Available</Text>
         <Switch
@@ -59,6 +76,7 @@ export default function FilterScreen({ navigation }) {
         />
       </View>
 
+      {/* Bridal Room */}
       <View style={styles.filterGroupRow}>
         <Text style={styles.label}>Bridal Room</Text>
         <Switch
@@ -78,7 +96,7 @@ export default function FilterScreen({ navigation }) {
         />
       </View>
 
-      {/* Menu Filter */}
+      {/* Menu Keyword */}
       <View style={styles.filterGroup}>
         <Text style={styles.label}>Menu Keyword</Text>
         <TextInput
