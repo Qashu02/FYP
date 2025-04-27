@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import colors from '../config/colors';
 
 const ChatScreen = () => {
   const [messages, setMessages] = useState([]);
@@ -14,25 +15,43 @@ const ChatScreen = () => {
 
   const handleSend = () => {
     if (input.trim() === '') return;
+    const now = new Date();
     const newMessage = {
       id: Date.now().toString(),
       text: input,
       sender: 'me',
+      time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      date: now.toDateString(),
     };
     setMessages([newMessage, ...messages]);
     setInput('');
   };
 
-  const renderItem = ({ item }) => (
-    <View
-      style={[
-        styles.message,
-        item.sender === 'me' ? styles.myMessage : styles.otherMessage,
-      ]}
-    >
-      <Text style={styles.messageText}>{item.text}</Text>
-    </View>
-  );
+  const renderItem = ({ item, index }) => {
+    const showDateHeader =
+      index === messages.length - 1 || messages[index + 1]?.date !== item.date;
+
+    return (
+      <View>
+        {showDateHeader && (
+          <View style={styles.dateHeader}>
+            <Text style={styles.dateText}>{item.date}</Text>
+          </View>
+        )}
+        <View
+          style={[
+            styles.message,
+            item.sender === 'me' ? styles.myMessage : styles.otherMessage,
+          ]}
+        >
+          <View style={styles.timeAndText}>
+            <Text style={styles.messageText}>{item.text}</Text>
+            <Text style={styles.timeText}>{item.time}</Text>
+          </View>
+        </View>
+      </View>
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -60,7 +79,7 @@ const ChatScreen = () => {
           onChangeText={setInput}
         />
         <TouchableOpacity onPress={handleSend}>
-          <Ionicons name="send" size={24} color="#007bff" />
+          <Ionicons name="send" size={24} color={colors.secondary} />
         </TouchableOpacity>
       </View>
     </View>
@@ -80,6 +99,15 @@ const styles = StyleSheet.create({
   avatar: { width: 40, height: 40, borderRadius: 20, marginRight: 10 },
   username: { fontSize: 16, fontWeight: 'bold' },
 
+  dateHeader: {
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  dateText: {
+    fontSize: 13,
+    color: '#888',
+  },
+
   message: {
     marginVertical: 4,
     marginHorizontal: 10,
@@ -94,6 +122,16 @@ const styles = StyleSheet.create({
   otherMessage: {
     backgroundColor: '#eee',
     alignSelf: 'flex-start',
+  },
+  timeAndText: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap:10
+  },
+  timeText: {
+    fontSize: 12,
+    color: '#555',
+    marginRight: 8,
   },
   messageText: {
     fontSize: 15,

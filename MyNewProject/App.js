@@ -7,6 +7,7 @@ import { View,StyleSheet, Settings } from 'react-native';
 import Screen from './components/Screen'
 
 import AdminNavigation from './Navigation/AdminNavigation';
+import ChatScreen from './Screens/ChattScreen';
 
 
 export default function App() {
@@ -15,7 +16,7 @@ export default function App() {
 <NavigationContainer>
 
 <Screen style={styles.container}>
-<AdminNavigation/>
+<ChatScreen/>
 </Screen>
 </NavigationContainer>
 
