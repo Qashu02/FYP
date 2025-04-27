@@ -6,8 +6,8 @@ import HallInfoSection from '../components/Blog/HallInfoSelection';
 import HallAvailability from '../components/Blog/HallAvailability';
 import colors from '../config/colors';
 import ReviewScreen from './ReviewScreen'
-
-const MenuDetailsScreen = () => {
+import Screen from '../components/Screen';
+const MenuDetailsScreen = ({navigation}) => {
   const [activeTab, setActiveTab] = useState('info'); // 'info' or 'reviews'
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [guestCount, setGuestCount] = useState('');
@@ -36,7 +36,7 @@ const MenuDetailsScreen = () => {
   ];
 
   return (
-    <View style={{ flex: 1 }}>
+    <Screen style={{ flex: 1 }}>
       {/* Tab Navigation Row */}
       <View style={styles.tabRow}>
         <TouchableOpacity onPress={() => setActiveTab('info')}>
@@ -82,14 +82,14 @@ const MenuDetailsScreen = () => {
         ListFooterComponent={() =>
           activeTab === 'info' ? (
             <View style={styles.footer}>
-              <Pressable style={styles.button}>
-                <Text style={styles.buttonText}>Confirm & Pay</Text>
+              <Pressable style={styles.button} onPress={()=>navigation.navigate('Payment Details')} >
+                <Text style={styles.buttonText}>Book Now</Text>
               </Pressable>
             </View>
           ) : null
         }
       />
-    </View>
+    </Screen>
   );
 };
 

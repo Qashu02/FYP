@@ -48,8 +48,6 @@ export default function EditProfileScreen() {
       <Text style={styles.label}>Email</Text>
       <TextInput style={styles.input} value={email} onChangeText={setEmail} keyboardType="email-address" />
 
-      <Text style={styles.label}>Phone</Text>
-      <TextInput style={styles.input} value={phone} onChangeText={setPhone} keyboardType="phone-pad" />
 
       {/* Save Button */}
       <TouchableOpacity onPress={handleSave} style={styles.saveBtn}>

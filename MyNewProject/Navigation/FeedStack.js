@@ -6,6 +6,7 @@ import FilterScreen from "../Screens/FilterScreen";
 import MenuDetailsScreen from '../Screens/MenuDetailsScreen'
 import HallListScreen from "../Screens/HallListScreen";
 import Card from "../components/Blog/Card";
+import PaymentScreen from "../Screens/PaymentScreen";
 export default function FeedStack() {
     const Stack =createNativeStackNavigator()
   return (
@@ -17,6 +18,7 @@ export default function FeedStack() {
     <Stack.Screen name="Filter" component={FilterScreen} />
     <Stack.Screen name="Card" component={Card} />
     <Stack.Screen name="Menu Details" component={MenuDetailsScreen} />
+    <Stack.Screen name="Payment Details" component={PaymentScreen} />
     
   </Stack.Navigator>
   )

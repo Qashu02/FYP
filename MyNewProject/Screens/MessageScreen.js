@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View,FlatList,Image } from 'react-native'
 import React from 'react'
-
+import Screen from '../components/Screen';
 
 
 export default function MessageScreen() {
@@ -45,7 +45,8 @@ export default function MessageScreen() {
         
       }
   return (
-    <View style={styles.container}>
+    
+    <Screen style={styles.container}>
         <Text style={styles.heading}>Messages</Text>
         <FlatList
         data={messages}
@@ -55,15 +56,16 @@ export default function MessageScreen() {
         />
 
   
-    </View>
+    </Screen>
+  
   )
 }
 
 const styles = StyleSheet.create({
     container: {
-      marginTop: 15,
+  
       flex: 1,
-      padding: 16,
+      padding: 10,
   
     },
     heading: {

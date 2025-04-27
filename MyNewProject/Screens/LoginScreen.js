@@ -55,7 +55,7 @@ const LoginScreen = ({ navigation }) => {
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
-        <WeddingImage style={styles.wedding} source={require('../assets/Wedding.png')} />
+        <WeddingImage style={styles.wedding} source={require('../assets/Wedding.png')} width={150} />
         <Formik
           initialValues={{ email: '', password: '' }}
           validationSchema={validationSchema}
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   },
   wedding: {
     marginLeft: 200,
-    marginTop: 100,
+    marginTop:100
   },
 });
 

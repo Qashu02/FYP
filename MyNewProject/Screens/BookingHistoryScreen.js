@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
-
+import Screen from '../components/Screen';
 const bookingHistory = [
   {
     id: '1',
@@ -64,7 +64,7 @@ const renderItem = ({item}) => {
   };
 
   return (
-    <View style={styles.container}>
+    <Screen style={styles.container}>
       <Text style={styles.heading}>Booking History</Text>
       <FlatList
         data={bookingHistory}
@@ -72,15 +72,15 @@ const renderItem = ({item}) => {
         renderItem={renderItem}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
       />
-    </View>
+    </Screen>
   );
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    backgroundColor: '#fff',
-    marginTop:15
+    padding: 10,
+  
+  
   },
   heading: {
     fontSize: 22,

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import colors from '../config/colors';
-
+import Screen from '../components/Screen';
 export default function NotificationScreen() {
   // Sample notifications data
   const [notifications, setNotifications] = useState([
@@ -37,7 +37,7 @@ export default function NotificationScreen() {
   );
 
   return (
-    <View style={styles.container}>
+    <Screen style={styles.container}>
       <Text style={styles.header}>Notifications</Text>
       <FlatList
         data={notifications}
@@ -46,7 +46,7 @@ export default function NotificationScreen() {
         contentContainerStyle={styles.listContainer}
         ListEmptyComponent={<Text style={styles.emptyText}>No notifications available.</Text>}
       />
-    </View>
+    </Screen>
   );
 }
 
@@ -54,8 +54,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
-    padding: 16,
-    paddingTop: 40,
+    padding: 10,
+  
   },
   header: {
     fontSize: 24,

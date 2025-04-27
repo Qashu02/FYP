@@ -1,6 +1,7 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { Card } from 'react-native-paper';
+import Screen from '../components/Screen';
 export default function BookingTrackingScreen() {
     const bookings = [
         {
@@ -54,7 +55,7 @@ export default function BookingTrackingScreen() {
       }
 
   return (
-    <View style={styles.container}>
+    <Screen style={styles.container}>
         <Text style={styles.title}>Track your Booking</Text>
      <FlatList
      data={bookings}
@@ -63,16 +64,16 @@ export default function BookingTrackingScreen() {
      style={styles.list}
      />
 
-    </View>
+    </Screen>
   )
 }
 
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      padding: 16,
+      padding: 10,
    
-      marginTop:15
+      
     },
     title: {
       fontSize: 22,
