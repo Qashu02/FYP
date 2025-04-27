@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import colors from '../config/colors';
 
-export default function AdminFeedbackReportsScreen() {
+export default function AdminManageFeedbackScreen() {
   const [feedbacks, setFeedbacks] = useState([
     {
       id: '1',
