@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import colors from '../config/colors';
-
+import Screen from '../components/Screen';
 const slotLabels = [
   { key: 'slot1', label: '1 PM - 4 PM' },
   { key: 'slot2', label: '5 PM - 7 PM' },
@@ -50,7 +50,7 @@ export default function ManageAvailabilityScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <Screen style={styles.container}>
       <Text style={styles.title}>Manage Availability</Text>
 
       <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.addBtn}>
@@ -90,16 +90,16 @@ export default function ManageAvailabilityScreen() {
           <Text style={styles.emptyText}>No availability added yet.</Text>
         }
       />
-    </View>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
-    padding: 16,
-    paddingTop: 30,
+   
+    padding: 10,
+    
   },
   title: {
     fontSize: 24,

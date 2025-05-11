@@ -32,10 +32,12 @@ const StepOne = forwardRef((props, ref) => {
         contact: true,
         facilities: {
           parking: true,
+          catering:true,
           air_conditioning: true,
           bridal_room: true,
           music: true,
           lighting: true,
+
         },
       });
 
@@ -57,10 +59,12 @@ const StepOne = forwardRef((props, ref) => {
         contact: '',
         facilities: {
           parking: false,
+          catering:true,
           air_conditioning: false,
           bridal_room: false,
           music: false,
           lighting: false,
+          
         },
       }}
       validationSchema={StepOneSchema}
@@ -108,7 +112,7 @@ const StepOne = forwardRef((props, ref) => {
           )}
 
           <Text style={styles.label}>Choose Facilities</Text>
-          {['parking', 'air_conditioning', 'bridal_room', 'music', 'lighting'].map(
+          {['parking', 'catering', 'air_conditioning', 'bridal_room', 'music', 'lighting'].map(
             (facilityKey) => (
               <View key={facilityKey} style={styles.facilityRow}>
                 <Text style={styles.facilityLabel}>

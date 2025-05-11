@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import colors from '../config/colors'; // Make sure your colors file exists
-
+import Screen from '../components/Screen';
 const { width } = Dimensions.get('window');
 
-export default function ManageHallsScreen() {
+export default function AdminManageHallRequest() {
   const [halls, setHalls] = useState([
     {
       id: '1',
@@ -124,12 +124,15 @@ export default function ManageHallsScreen() {
   );
 
   return (
+    <Screen>
+
     <FlatList
       data={halls}
       keyExtractor={(item) => item.id}
       renderItem={renderHall}
       contentContainerStyle={{ padding: 10 }}
-    />
+      />
+      </Screen>
   );
 }
 

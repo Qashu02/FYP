@@ -1,18 +1,28 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, FlatList, Pressable, Text, TouchableOpacity } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  Pressable,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 
 import MenuSelector from '../components/Blog/MenuSelector';
 import HallInfoSection from '../components/Blog/HallInfoSelection';
 import HallAvailability from '../components/Blog/HallAvailability';
 import colors from '../config/colors';
-import ReviewScreen from './ReviewScreen'
+import ReviewScreen from './ReviewScreen';
 import Screen from '../components/Screen';
-const MenuDetailsScreen = ({navigation}) => {
+
+const MenuDetailsScreen = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState('info'); // 'info' or 'reviews'
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [guestCount, setGuestCount] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
+
+  const rentalPrice = 30000; // Fixed rental price
 
   const menuPackages = [
     {
@@ -35,17 +45,29 @@ const MenuDetailsScreen = ({navigation}) => {
     },
   ];
 
+  const menuCost =
+    selectedPackage && guestCount
+      ? selectedPackage.pricePerHead * parseInt(guestCount || 0)
+      : 0;
+
+  const totalCost = Math.round(0.2 * (rentalPrice + menuCost));
+
   return (
     <Screen style={{ flex: 1 }}>
       {/* Tab Navigation Row */}
       <View style={styles.tabRow}>
         <TouchableOpacity onPress={() => setActiveTab('info')}>
-          <Text style={[styles.tabText, activeTab === 'info' && styles.activeTab]}>
+          <Text
+            style={[styles.tabText, activeTab === 'info' && styles.activeTab]}>
             Hall Info
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setActiveTab('reviews')}>
-          <Text style={[styles.tabText, activeTab === 'reviews' && styles.activeTab]}>
+          <Text
+            style={[
+              styles.tabText,
+              activeTab === 'reviews' && styles.activeTab,
+            ]}>
             Reviews
           </Text>
         </TouchableOpacity>
@@ -60,12 +82,25 @@ const MenuDetailsScreen = ({navigation}) => {
             {activeTab === 'info' ? (
               <>
                 <HallInfoSection />
+
+                {/* Rental Info Section */}
+                <View style={styles.rentalCard}>
+                  <Text style={styles.rentalLabel}>🎉 Hall Rental Price</Text>
+                  <Text style={styles.rentalAmount}>
+                    Rs {rentalPrice.toLocaleString()}
+                  </Text>
+                  <Text style={styles.rentalNote}>
+                    Includes venue, lighting, and basic setup
+                  </Text>
+                </View>
+
                 <HallAvailability
                   selectedDate={selectedDate}
                   setSelectedDate={setSelectedDate}
                   selectedTime={selectedTime}
                   setSelectedTime={setSelectedTime}
                 />
+
                 <MenuSelector
                   selectedPackage={selectedPackage}
                   setSelectedPackage={setSelectedPackage}
@@ -73,16 +108,29 @@ const MenuDetailsScreen = ({navigation}) => {
                   setGuestCount={setGuestCount}
                   menuPackages={menuPackages}
                 />
+
+                {/* Total Section */}
+                <View style={styles.totalSection}>
+                  <Text style={styles.totalLabel}>Total Advance (20%)</Text>
+                  <Text style={styles.totalAmount}>
+                    Rs {totalCost.toLocaleString()}
+                  </Text>
+                  <Text style={styles.totalNote}>
+                    * 20% of rental + selected menu cost
+                  </Text>
+                </View>
               </>
             ) : (
-              <ReviewScreen route={{params:{isHallManager:false}}}/>
+              <ReviewScreen route={{ params: { isHallManager: false } }} />
             )}
           </View>
         )}
         ListFooterComponent={() =>
           activeTab === 'info' ? (
             <View style={styles.footer}>
-              <Pressable style={styles.button} onPress={()=>navigation.navigate('Payment Details')} >
+              <Pressable
+                style={styles.button}
+                onPress={() => navigation.navigate('Payment Details')}>
                 <Text style={styles.buttonText}>Book Now</Text>
               </Pressable>
             </View>
@@ -97,7 +145,7 @@ export default MenuDetailsScreen;
 
 const styles = StyleSheet.create({
   tabRow: {
-    marginTop:20,
+    marginTop: 20,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     paddingHorizontal: 20,
@@ -120,6 +168,59 @@ const styles = StyleSheet.create({
   content: {
     padding: 16,
     backgroundColor: '#fff',
+  },
+  rentalCard: {
+    backgroundColor: '#e0f7fa',
+    padding: 16,
+    borderRadius: 16,
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 4,
+  },
+  rentalLabel: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    color: '#006064',
+    marginBottom: 4,
+  },
+  rentalAmount: {
+    fontSize: 22,
+    color: '#004d40',
+    fontWeight: 'bold',
+  },
+  rentalNote: {
+    fontSize: 13,
+    color: '#555',
+    marginTop: 4,
+  },
+  totalSection: {
+    backgroundColor:'#fff',
+    padding: 16,
+    borderRadius: 16,
+    marginTop: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  totalLabel: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#827717',
+  },
+  totalAmount: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#5d4037',
+  },
+  totalNote: {
+    fontSize: 12,
+    color: '#777',
+    marginTop: 4,
   },
   footer: {
     padding: 16,

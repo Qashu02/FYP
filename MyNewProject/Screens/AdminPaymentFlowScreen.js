@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import colors from '../config/colors';
-
+import Screen from '../components/Screen';
 export default function AdminPaymentFlowScreen() {
   const [payments, setPayments] = useState([
     {
@@ -47,19 +47,22 @@ export default function AdminPaymentFlowScreen() {
   );
 
   return (
-    <FlatList
-      data={payments}
-      keyExtractor={(item) => item.id}
-      renderItem={renderPayment}
-      contentContainerStyle={styles.container}
-    />
+    <Screen>
+
+      <FlatList
+        data={payments}
+        keyExtractor={(item) => item.id}
+        renderItem={renderPayment}
+        contentContainerStyle={styles.container}
+      />
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     padding: 10,
-    backgroundColor: colors.background,
+  
   },
   card: {
     backgroundColor: '#fff',

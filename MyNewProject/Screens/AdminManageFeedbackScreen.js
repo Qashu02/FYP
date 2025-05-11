@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import colors from '../config/colors';
-
+import Screen from '../components/Screen';
 export default function AdminManageFeedbackScreen() {
   const [feedbacks, setFeedbacks] = useState([
     {
@@ -52,19 +52,22 @@ export default function AdminManageFeedbackScreen() {
   );
 
   return (
+    <Screen>
+
     <FlatList
       data={feedbacks}
       keyExtractor={(item) => item.id}
       renderItem={renderFeedback}
       contentContainerStyle={styles.container}
-    />
+      />
+      </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     padding: 10,
-    backgroundColor: colors.background,
+   
   },
   card: {
     backgroundColor: '#fff',

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import colors from '../../config/colors';
 
 export default function StepThree() {
   const [selectedPlan, setSelectedPlan] = useState(null);
@@ -33,27 +34,47 @@ export default function StepThree() {
     console.log("Selected Plan:", id);
   };
 
+  const handleSave = () => {
+    if (selectedPlan) {
+      console.log('Saving plan:', selectedPlan);
+      // Navigate or perform save action
+    } else {
+      alert('Please select a plan first');
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Choose a Pricing Plan</Text>
 
-      {plans.map((plan) => (
-        <TouchableOpacity
-          key={plan.id}
-          style={[
-            styles.card,
-            selectedPlan === plan.id && styles.selectedCard,
-          ]}
-          onPress={() => handleSelect(plan.id)}
-        >
-          <Text style={styles.title}>{plan.title}</Text>
-          <Text style={styles.price}>{plan.price}</Text>
-          <Text style={styles.description}>{plan.description}</Text>
-          {plan.savings ? (
-            <Text style={styles.savings}>{plan.savings}</Text>
-          ) : null}
-        </TouchableOpacity>
-      ))}
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 100 }}>
+        {plans.map((plan) => (
+          <TouchableOpacity
+            key={plan.id}
+            style={[
+              styles.card,
+              selectedPlan === plan.id && styles.selectedCard,
+            ]}
+            onPress={() => handleSelect(plan.id)}
+          >
+            <View style={styles.cardContent}>
+              <View>
+                <Text style={styles.title}>{plan.title}</Text>
+                <Text style={styles.price}>{plan.price}</Text>
+                <Text style={styles.description}>{plan.description}</Text>
+              </View>
+
+              {plan.savings ? (
+                <View style={styles.savingsContainer}>
+                  <Text style={styles.savingsText}>{plan.savings}</Text>
+                </View>
+              ) : null}
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+
+   
     </View>
   );
 }
@@ -61,8 +82,8 @@ export default function StepThree() {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-   
     flex: 1,
+   
   },
   heading: {
     fontSize: 22,
@@ -77,15 +98,20 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     borderWidth: 1,
     borderColor: '#ddd',
-    elevation: 3, // For Android shadow
-    shadowColor: '#000', // iOS shadow
+    elevation: 3,
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 6,
   },
   selectedCard: {
-    borderColor: '#d33',
+    borderColor: colors.secondary,
     backgroundColor: '#fff5f5',
+  },
+  cardContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   title: {
     fontSize: 18,
@@ -102,10 +128,38 @@ const styles = StyleSheet.create({
     marginTop: 4,
     color: '#777',
   },
-  savings: {
-    marginTop: 6,
-    fontSize: 13,
-    fontWeight: '600',
-    color: '#d33',
+  savingsContainer: {
+    backgroundColor: colors.secondary, // your secondary color
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: 12,
+    alignSelf: 'flex-start',
+  },
+  savingsText: {
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  saveContainer: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    right: 20,
+    alignItems: 'center',
+  },
+  saveButton: {
+    backgroundColor: colors.secondary,
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    borderRadius: 30,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 4,
+  },
+  saveButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });

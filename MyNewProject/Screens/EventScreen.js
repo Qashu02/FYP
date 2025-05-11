@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, FlatList, Text, StyleSheet } from 'react-native';
-
+import Screen from '../components/Screen';
 const sampleOrders = [
   {
     id: '1',
@@ -61,7 +61,7 @@ export default function EventScreen() {
   );
 
   return (
-    <View style={styles.container}>
+    <Screen style={styles.container}>
       <Text style={styles.title}>Events</Text>
       <FlatList
         data={sampleOrders}
@@ -72,13 +72,13 @@ export default function EventScreen() {
         }
         contentContainerStyle={{ paddingBottom: 30 }}
       />
-    </View>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
+    padding: 10,
  
   },
   title: {

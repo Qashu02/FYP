@@ -4,6 +4,7 @@ import StepOne from '../components/Hall Profile/StepOne';
 import StepTwo from '../components/Hall Profile/StepTwo';
 import StepThree from '../components/Hall Profile/StepThree';
 import colors from '../config/colors';
+import Screen from '../components/Screen';
 
 export default function HallProfileFormScreen({ route, navigation }) {
   const editMode = route?.params?.editMode || false;
@@ -40,6 +41,8 @@ export default function HallProfileFormScreen({ route, navigation }) {
   };
 
   return (
+  <Screen>
+
     <FlatList
       data={[{ key: 'form' }]}
       contentContainerStyle={styles.scrollContainer}
@@ -85,6 +88,7 @@ export default function HallProfileFormScreen({ route, navigation }) {
       )}
       keyExtractor={(item) => item.key}
     />
+  </Screen>
   );
 }
 
@@ -94,8 +98,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: 16,
-    marginTop: 60,
+    padding: 10,
+  
   },
   progressContainer: {
     paddingBottom: 50,

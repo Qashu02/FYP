@@ -15,14 +15,18 @@ import UserSelectionScreen from './Screens/UserSelectionScreen';
 import HallAvailability from './components/Blog/HallAvailability';
 import HallInfoSection from './components/Blog/HallInfoSelection';
 import MenuDetailsScreen from './Screens/MenuDetailsScreen';
+import StepOne from './components/Hall Profile/StepOne';
+import colors from './config/colors';
+import MenuSelector from './components/Blog/MenuSelector';
 export default function App() {
 
   return (
 
 <View style={styles.container}>
-<NavigationContainer>
-<AppNavigation/>
-</NavigationContainer>
+{/* <NavigationContainer>
+<AdminNavigation/>
+</NavigationContainer> */}
+<MenuDetailsScreen/>
 </View>
 
 
@@ -30,7 +34,7 @@ export default function App() {
 }
 const styles = StyleSheet.create({
   container:{
- backgroundColor:'#fff',
+color:colors.background,
   flex:1,
   width:'100%',
 

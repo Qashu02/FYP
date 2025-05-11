@@ -5,10 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  ScrollView,
   FlatList,
-  KeyboardAvoidingView,
-  Platform,
   Keyboard,
   TouchableWithoutFeedback,
 } from 'react-native';
@@ -17,6 +14,7 @@ import * as Yup from 'yup';
 import AppTextInput from '../AppTextInput';
 import AppErrorMessage from '../AppErrorMessage';
 import ImageInputList from './ImageInputList';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const StepTwoSchema = Yup.object().shape({
   capacity: Yup.number()
@@ -46,13 +44,14 @@ const StepTwo = React.forwardRef((_, ref) => {
   }));
 
   return (
-    <KeyboardAvoidingView
+    <KeyboardAwareScrollView
       style={{ flex: 1 }}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={100}
+      contentContainerStyle={styles.formContainer}
+      keyboardShouldPersistTaps="handled"
+      extraScrollHeight={20}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{ flex: 1 }}>
+        <View>
           <Formik
             innerRef={formikRef}
             initialValues={{
@@ -129,10 +128,7 @@ const StepTwo = React.forwardRef((_, ref) => {
               };
 
               return (
-                <ScrollView
-                  contentContainerStyle={styles.formContainer}
-                  keyboardShouldPersistTaps="handled"
-                >
+                <View>
                   <Text style={styles.label}>Upload Hall Images</Text>
                   <ImageInputList
                     imageUris={values.images}
@@ -210,25 +206,25 @@ const StepTwo = React.forwardRef((_, ref) => {
                     )}
                     keyExtractor={(item, index) => index.toString()}
                   />
-                </ScrollView>
+                </View>
               );
             }}
           </Formik>
         </View>
       </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 });
 
 const styles = StyleSheet.create({
   formContainer: {
-    padding: 16,
-    paddingBottom: 100,
+    padding: 10,
+   
   },
   label: {
     fontWeight: '600',
     marginBottom: 6,
-    marginTop: 10,
+    // marginTop: 10,
   },
   input: {
     borderWidth: 1,
@@ -245,7 +241,7 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 16,
     lineHeight: 24,
-    textAlignVertical: 'top', 
+    textAlignVertical: 'top',
   },
   addButton: {
     backgroundColor: '#132743',
