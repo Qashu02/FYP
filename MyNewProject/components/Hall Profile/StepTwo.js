@@ -15,7 +15,7 @@ import AppTextInput from '../AppTextInput';
 import AppErrorMessage from '../AppErrorMessage';
 import ImageInputList from './ImageInputList';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
+import Screen from '../Screen';
 const StepTwoSchema = Yup.object().shape({
   capacity: Yup.number()
     .required('Capacity is required')
@@ -26,6 +26,9 @@ const StepTwoSchema = Yup.object().shape({
     .max(100, "Description must be between 20 and 100 characters"),
   menuPackages: Yup.array().min(1, 'At least one menu package is required'),
   images: Yup.array().min(1, 'At least one image is required'),
+  rentalPrice: Yup.number()
+    .required('Rental price is required')
+    .min(0, 'Rental price must be a positive number'),
 });
 
 const StepTwo = React.forwardRef((_, ref) => {
@@ -38,6 +41,7 @@ const StepTwo = React.forwardRef((_, ref) => {
         capacity: true,
         menuPackages: true,
         images: true,
+        rentalPrice: true,
       });
       return Object.keys(isValid).length === 0;
     },
@@ -61,6 +65,7 @@ const StepTwo = React.forwardRef((_, ref) => {
               images: [],
               newPackage: '',
               newPrice: '',
+              rentalPrice: '',
             }}
             validationSchema={StepTwoSchema}
             onSubmit={(values) => {
@@ -128,7 +133,7 @@ const StepTwo = React.forwardRef((_, ref) => {
               };
 
               return (
-                <View>
+                <Screen>
                   <Text style={styles.label}>Upload Hall Images</Text>
                   <ImageInputList
                     imageUris={values.images}
@@ -150,6 +155,19 @@ const StepTwo = React.forwardRef((_, ref) => {
                   />
                   <AppErrorMessage visible={touched.capacity && errors.capacity} error={errors.capacity} />
 
+                    
+                                      <Text style={styles.label}>Rental Price</Text>
+                                      <AppTextInput
+                                        placeholder="e.g., 1500"
+                                        keyboardType="numeric"
+                                        value={values.rentalPrice}
+                                        onChangeText={handleChange('rentalPrice')}
+                                        onBlur={() => {
+                                          setFieldTouched('rentalPrice');
+                                          validateField('rentalPrice');
+                                        }}
+                                      />
+                                      <AppErrorMessage visible={touched.rentalPrice && errors.rentalPrice} error={errors.rentalPrice} />
                   <Text style={styles.label}>Description</Text>
                   <AppTextInput
                     placeholder="Enter Description"
@@ -206,7 +224,7 @@ const StepTwo = React.forwardRef((_, ref) => {
                     )}
                     keyExtractor={(item, index) => index.toString()}
                   />
-                </View>
+                </Screen>
               );
             }}
           </Formik>
@@ -219,12 +237,10 @@ const StepTwo = React.forwardRef((_, ref) => {
 const styles = StyleSheet.create({
   formContainer: {
     padding: 10,
-   
   },
   label: {
     fontWeight: '600',
     marginBottom: 6,
-    // marginTop: 10,
   },
   input: {
     borderWidth: 1,

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
-import colors from '../config/colors'; // Make sure your colors file exists
+import colors from '../config/colors'; // Ensure this file has color definitions
 import Screen from '../components/Screen';
-const { width } = Dimensions.get('window');
+
+const { width, height } = Dimensions.get('window');
 
 export default function AdminManageHallRequest() {
   const [halls, setHalls] = useState([
@@ -13,6 +14,7 @@ export default function AdminManageHallRequest() {
       location: 'Downtown City',
       services: ['Catering', 'Decoration', 'Music', 'Lighting'],
       status: 'pending',
+      rentalPrice: '25000',
       images: [
         'https://images.unsplash.com/photo-1580587771525-78b9dba3b914',
         'https://images.unsplash.com/photo-1597262975002-c5c3b14bbd62',
@@ -35,6 +37,7 @@ export default function AdminManageHallRequest() {
       location: 'City Park',
       services: ['Photography', 'Live Band'],
       status: 'pending',
+      rentalPrice: '18000',
       images: [
         'https://images.unsplash.com/photo-1612531384832-3c60e72d4ee3',
         'https://images.unsplash.com/photo-1600047506528-47e1c5b8de6b',
@@ -86,6 +89,8 @@ export default function AdminManageHallRequest() {
         <Text style={styles.location}>{item.location}</Text>
         <Text style={styles.description}>{item.description}</Text>
 
+        <Text style={styles.rentalPrice}>Rental Price: Rs {item.rentalPrice}</Text>
+
         {/* Services */}
         <View style={styles.servicesContainer}>
           <Text style={styles.sectionTitle}>Services:</Text>
@@ -111,10 +116,16 @@ export default function AdminManageHallRequest() {
         {/* Action Buttons */}
         {item.status === 'pending' && (
           <View style={styles.buttonsContainer}>
-            <TouchableOpacity style={[styles.button, { backgroundColor: 'green' }]} onPress={() => handleAccept(item.id)}>
+            <TouchableOpacity
+              style={[styles.button, { backgroundColor: 'green' }]}
+              onPress={() => handleAccept(item.id)}
+            >
               <Text style={styles.buttonText}>Accept</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, { backgroundColor: 'red' }]} onPress={() => handleReject(item.id)}>
+            <TouchableOpacity
+              style={[styles.button, { backgroundColor: 'red' }]}
+              onPress={() => handleReject(item.id)}
+            >
               <Text style={styles.buttonText}>Reject</Text>
             </TouchableOpacity>
           </View>
@@ -125,14 +136,13 @@ export default function AdminManageHallRequest() {
 
   return (
     <Screen>
-
-    <FlatList
-      data={halls}
-      keyExtractor={(item) => item.id}
-      renderItem={renderHall}
-      contentContainerStyle={{ padding: 10 }}
+      <FlatList
+        data={halls}
+        keyExtractor={(item) => item.id}
+        renderItem={renderHall}
+        contentContainerStyle={{ padding: 10 }}
       />
-      </Screen>
+    </Screen>
   );
 }
 
@@ -143,9 +153,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     elevation: 3,
     overflow: 'hidden',
-    height:'100%a'
+    minHeight: height - 100, // Takes most of the screen height
   },
-
   imageScroll: {
     width: '100%',
     height: 200,
@@ -173,6 +182,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.dark,
     marginBottom: 10,
+  },
+  rentalPrice: {
+    fontSize: 16,
+    color: colors.primary,
+    fontWeight: 'bold',
+    marginBottom: 8,
   },
   servicesContainer: {
     marginBottom: 10,

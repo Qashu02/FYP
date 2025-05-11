@@ -18,6 +18,8 @@ import MenuDetailsScreen from './Screens/MenuDetailsScreen';
 import StepOne from './components/Hall Profile/StepOne';
 import colors from './config/colors';
 import MenuSelector from './components/Blog/MenuSelector';
+import StepTwo from './components/Hall Profile/StepTwo';
+import AdminManageHallRequest from './Screens/AdminManageHallRequest';
 export default function App() {
 
   return (
@@ -26,7 +28,7 @@ export default function App() {
 {/* <NavigationContainer>
 <AdminNavigation/>
 </NavigationContainer> */}
-<MenuDetailsScreen/>
+<AdminManageHallRequest/>
 </View>
 
 
