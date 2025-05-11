@@ -28,7 +28,7 @@ export default function App() {
 {/* <NavigationContainer>
 <AdminNavigation/>
 </NavigationContainer> */}
-<AdminManageHallRequest/>
+<MenuDetailsScreen/>
 </View>
 
 

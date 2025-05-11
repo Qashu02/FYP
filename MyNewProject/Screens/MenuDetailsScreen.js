@@ -3,10 +3,11 @@ import {
   View,
   StyleSheet,
   FlatList,
-  Pressable,
   Text,
   TouchableOpacity,
+  Pressable,
 } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';  // For the message icon
 
 import MenuSelector from '../components/Blog/MenuSelector';
 import HallInfoSection from '../components/Blog/HallInfoSelection';
@@ -15,14 +16,14 @@ import colors from '../config/colors';
 import ReviewScreen from './ReviewScreen';
 import Screen from '../components/Screen';
 
-const MenuDetailsScreen = ({ navigation }) => {
-  const [activeTab, setActiveTab] = useState('info'); // 'info' or 'reviews'
+const MenuDetailsScreen = () => {
+  const [activeTab, setActiveTab] = useState('info');
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [guestCount, setGuestCount] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
 
-  const rentalPrice = 30000; // Fixed rental price
+  const rentalPrice = 30000;
 
   const menuPackages = [
     {
@@ -75,7 +76,7 @@ const MenuDetailsScreen = ({ navigation }) => {
 
       {/* Content Section */}
       <FlatList
-        data={[]} // No list items, just using header/footer
+        data={[]}
         keyExtractor={() => 'key'}
         ListHeaderComponent={() => (
           <View style={styles.content}>
@@ -128,15 +129,20 @@ const MenuDetailsScreen = ({ navigation }) => {
         ListFooterComponent={() =>
           activeTab === 'info' ? (
             <View style={styles.footer}>
-              <Pressable
-                style={styles.button}
-                onPress={() => navigation.navigate('Payment Details')}>
+              <Pressable style={styles.button}>
                 <Text style={styles.buttonText}>Book Now</Text>
               </Pressable>
             </View>
           ) : null
         }
       />
+
+      {/* Message Icon (Not navigating) */}
+      <View style={styles.messageIconContainer}>
+        <TouchableOpacity onPress={() => alert('Message icon clicked')}>
+          <MaterialIcons name="message" size={30} color={colors.secondary} />
+        </TouchableOpacity>
+      </View>
     </Screen>
   );
 };
@@ -197,7 +203,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   totalSection: {
-    backgroundColor:'#fff',
+    backgroundColor: '#fff',
     padding: 16,
     borderRadius: 16,
     marginTop: 10,
@@ -237,5 +243,11 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
+  },
+  messageIconContainer: {
+    position: 'absolute',
+    top: 30,
+    right: 20,
+    zIndex: 1,
   },
 });
